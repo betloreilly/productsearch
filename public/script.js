@@ -7,7 +7,51 @@ const maxPriceFilterInput = document.getElementById('maxPriceFilter');
 const limitFilterInput = document.getElementById('limitFilter');
 const resultsContainer = document.getElementById('resultsContainer');
 
+// Add event listener for DOMContentLoaded to load initial products
+document.addEventListener('DOMContentLoaded', () => {
+    loadInitialProducts();
+});
+
 searchButton.addEventListener('click', performSearch);
+
+// Function to load initial products
+async function loadInitialProducts() {
+    console.log('Loading initial products...');
+    resultsContainer.innerHTML = '<p>Loading products...</p>'; // Update initial message
+
+    const initialPayload = {
+        limit: 10 // Load a few more initially, adjust as needed
+        // Add default filters here if desired
+    };
+
+    try {
+        const response = await fetch('/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(initialPayload),
+        });
+
+        if (!response.ok) {
+            // Try to parse error, fallback to status text
+            let errorMsg = `HTTP error! status: ${response.status}`;
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorMsg;
+            } catch (parseError) { /* Ignore if error response isn't JSON */ }
+            throw new Error(errorMsg);
+        }
+
+        const results = await response.json();
+        displayResults(results);
+
+    } catch (error) {
+        console.error('Initial load failed:', error);
+        // Clear loading message and show error
+        resultsContainer.innerHTML = `<p style="color: red;">Error loading initial products: ${error.message}</p>`;
+    }
+}
 
 async function performSearch() {
     const query = searchQueryInput.value.trim();
@@ -15,7 +59,7 @@ async function performSearch() {
     const category = categoryFilterInput.value.trim();
     const minPrice = minPriceFilterInput.value;
     const maxPrice = maxPriceFilterInput.value;
-    const limit = limitFilterInput.value || 5; // Default limit if empty
+    const limit = limitFilterInput.value || 10; // Match initial load default or use input
 
     const searchPayload = {};
     if (query) searchPayload.query = query;
@@ -38,8 +82,13 @@ async function performSearch() {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+            // Try to parse error, fallback to status text
+            let errorMsg = `HTTP error! status: ${response.status}`;
+            try {
+                const errorData = await response.json();
+                errorMsg = errorData.message || errorMsg;
+            } catch (parseError) { /* Ignore if error response isn't JSON */ }
+            throw new Error(errorMsg);
         }
 
         const results = await response.json();

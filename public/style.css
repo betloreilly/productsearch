@@ -10,94 +10,52 @@ body {
     background-color: #f0f2f5; /* Light grey background */
     color: #111; /* Dark grey text */
     line-height: 1.5;
-    padding: 20px;
+    /* Remove body padding, apply to specific areas */
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff; /* White background for main content */
-    padding: 25px 30px;
+.page-wrapper {
+    display: flex;
+    max-width: 1400px; /* Allow slightly wider layout */
+    margin: 20px auto;
+    background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    min-height: calc(100vh - 40px); /* Ensure footer doesn't jump up */
+    overflow: hidden; /* Contain children */
 }
 
-.header h1 {
-    text-align: center;
-    color: #0f1111; /* Near black */
-    margin-bottom: 25px;
-    font-weight: 500;
+/* Sidebar Styles */
+.sidebar {
+    width: 280px; /* Fixed width for sidebar */
+    padding: 25px 20px;
+    border-right: 1px solid #dee2e6;
+    background-color: #fafafa; /* Slightly off-white */
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
 }
 
-/* Search Controls */
-.search-controls {
-    margin-bottom: 30px;
-}
-
-.search-bar-container {
-    display: flex;
-    align-items: center;
+.sidebar h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    border-radius: 8px; /* Rounded corners for the combined bar */
-    overflow: hidden; /* Clip shadow correctly */
+    color: #333;
 }
 
-#searchQuery {
-    flex-grow: 1;
-    padding: 12px 15px;
-    font-size: 1rem;
-    border: 1px solid #ced4da; /* Slightly softer border */
-    border-right: none;
-    /* Remove individual border-radius, apply to container */
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    min-width: 200px; /* Prevent excessive shrinking */
-}
-
-#searchQuery:focus {
-    outline: none;
-    border-color: #adb5bd;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle focus indicator */
-    z-index: 1; /* Ensure focus shadow appears above button */
-}
-
-#searchButton {
-    background-color: #007bff; /* Primary blue */
-    color: white;
-    padding: 12px 25px;
-    border: none;
-    /* Remove individual border-radius, apply to container */
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-    white-space: nowrap; /* Prevent button text wrapping */
-}
-
-#searchButton:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-/* Filter Controls */
 .filter-controls {
     display: flex;
-    flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
-    gap: 20px; /* Spacing between filter groups */
-    align-items: flex-end; /* Align items to the bottom */
+    flex-direction: column; /* Stack filters vertically in sidebar */
+    gap: 18px; /* Spacing between filter groups */
+    /* Remove flex-wrap and align-items from previous layout */
 }
 
 .filter-group {
     display: flex;
     flex-direction: column;
-    min-width: 100px; /* Minimum width */
+    /* Remove min-width */
 }
 
 .filter-group label {
     font-size: 0.85rem;
-    color: #495057; /* Medium grey */
+    color: #495057;
     margin-bottom: 4px;
     font-weight: 500;
 }
@@ -109,12 +67,8 @@ body {
     border-radius: 6px;
     font-size: 0.95rem;
     box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
-    width: 100%; /* Make inputs take full width of their group */
-}
-
-.filter-controls input[type="number"] {
-    /* Adjust width specifically for number inputs if needed */
-    max-width: 120px;
+    width: 100%; /* Take full width of sidebar */
+    /* Remove max-width restriction */
 }
 
 .filter-controls input:focus {
@@ -123,8 +77,68 @@ body {
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
 
-.price-group {
-   /* Specific styling for price group if needed */
+/* Main Content Styles */
+.main-content {
+    flex-grow: 1; /* Allow main content to take remaining space */
+    padding: 25px 30px;
+    /* Remove container background/shadow/border-radius - applied to page-wrapper */
+}
+
+.header h1 {
+    text-align: center;
+    color: #0f1111; /* Near black */
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+/* Search Controls in Main Content */
+.search-controls {
+    margin-bottom: 30px;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    /* margin-bottom: 20px; -- Remove as filters are gone */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+#searchQuery {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-right: none;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    min-width: 200px;
+}
+
+#searchQuery:focus {
+    outline: none;
+    border-color: #adb5bd;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+    z-index: 1;
+}
+
+#searchButton {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap;
+}
+
+#searchButton:hover {
+    background-color: #0056b3;
 }
 
 /* Screen Reader Only Label */
@@ -144,18 +158,18 @@ body {
 #resultsContainer {
     margin-top: 30px;
     display: grid;
-    /* Responsive grid: more columns on wider screens */
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    /* Adjust grid based on main content width */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Slightly smaller min size maybe */
     gap: 25px;
 }
 
 .product-item {
     background-color: #fff;
-    border: 1px solid #dee2e6; /* Lighter border */
+    border: 1px solid #dee2e6;
     border-radius: 8px;
     padding: 20px;
-    display: flex; /* Use flexbox for better internal layout */
-    flex-direction: column; /* Stack elements vertically */
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     transition: box-shadow 0.2s ease-in-out;
 }
@@ -166,66 +180,84 @@ body {
 
 .product-item img {
     max-width: 100%;
-    height: 200px; /* Fixed height for consistency */
-    object-fit: contain; /* Scale image nicely within bounds */
+    height: 180px; /* Slightly smaller image height */
+    object-fit: contain;
     border-radius: 4px;
     margin-bottom: 15px;
-    align-self: center; /* Center the image */
+    align-self: center;
 }
 
 .product-item h3 {
     margin-top: 0;
     margin-bottom: 8px;
-    font-size: 1.1rem; /* Slightly larger */
+    font-size: 1.05rem; /* Slightly smaller */
     color: #111;
     font-weight: 500;
     line-height: 1.3;
 }
 
 .product-item p {
-    font-size: 0.95rem;
+    font-size: 0.9rem; /* Slightly smaller */
     color: #555;
     margin-bottom: 10px;
-    flex-grow: 1; /* Allow description to take up space */
+    flex-grow: 1;
 }
 
 .product-item .price {
     font-weight: bold;
-    color: #B12704; /* Amazon-like price color */
-    font-size: 1.1rem;
+    color: #B12704;
+    font-size: 1.05rem;
     margin-bottom: 10px;
 }
 
 .product-item .category,
 .product-item .city {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #555;
     display: block;
     margin-bottom: 4px;
 }
 
 .initial-message,
-#resultsContainer p {
-    grid-column: 1 / -1; /* Make messages span all columns if grid is active */
+#resultsContainer > p { /* Target direct <p> children like error/loading messages */
+    grid-column: 1 / -1;
     text-align: center;
-    color: #6c757d; /* Muted color */
+    color: #6c757d;
     padding: 20px;
 }
 
 
 /* Responsiveness */
-@media (max-width: 768px) {
+@media (max-width: 992px) { /* Adjust breakpoint for sidebar */
+    .page-wrapper {
+        flex-direction: column;
+        margin: 10px auto;
+    }
+    .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+        padding: 20px 15px; /* Adjust padding */
+    }
+    .sidebar h2 {
+        text-align: center;
+        margin-bottom: 15px;
+    }
     .filter-controls {
+        flex-direction: row; /* Filters side-by-side again */
+        flex-wrap: wrap;
         gap: 15px;
+        align-items: flex-end;
     }
     .filter-group {
-        min-width: calc(50% - 10px); /* Two columns on smaller screens */
+        flex-grow: 1; /* Allow groups to grow */
+        min-width: calc(50% - 10px); /* Aim for 2 columns */
     }
-    .filter-controls input[type="number"] {
-        max-width: none; /* Allow number inputs to take full width */
-    }
-    .container {
+    .main-content {
         padding: 20px 15px;
+    }
+     #resultsContainer {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); /* Adjust min size */
     }
 }
 
@@ -237,7 +269,7 @@ body {
     }
     #searchQuery {
         border-radius: 8px;
-        border-right: 1px solid #ced4da; /* Add border back */
+        border-right: 1px solid #ced4da;
         margin-bottom: 10px;
         width: 100%;
     }
@@ -245,11 +277,18 @@ body {
         border-radius: 8px;
         width: 100%;
     }
+    .filter-controls {
+         gap: 10px; /* Reduce gap */
+    }
     .filter-group {
-        min-width: 100%; /* Full width on very small screens */
+        min-width: calc(50% - 8px); /* Still aim for 2 columns if possible */
     }
     #resultsContainer {
         grid-template-columns: 1fr; /* Single column results */
+        gap: 15px;
+    }
+    .product-item img {
+        height: 150px;
     }
 
 } 
