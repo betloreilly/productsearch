@@ -1,0 +1,90 @@
+[
+    {
+      "productId": "elect-001",
+      "name": "Headphones",
+      "description": "Experience immersive sound with these comfortable over-ear headphones featuring active noise cancellation and long battery life. Bluetooth 5.0 connectivity.",
+      "price": 38.09,
+      "currency": "USD",
+      "category": "Electronics",
+      "city": "Seattle",
+      "imageUrl": "https://yourdomain.com/data/images/electronics/headphones.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "elect-002",
+      "name": "Speaker",
+      "description": "Portable Bluetooth speaker with rich bass, 12-hour battery, and waterproof design.",
+      "price": 220.87,
+      "currency": "USD",
+      "category": "Electronics",
+      "city": "San Francisco",
+      "imageUrl": "https://yourdomain.com/data/images/electronics/speaker.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "elect-003",
+      "name": "Laptop",
+      "description": "Sleek ultrabook with 13.3-inch Retina display, 16GB RAM, and 512GB SSD.",
+      "price": 106.5,
+      "currency": "EUR",
+      "category": "Electronics",
+      "city": "Seattle",
+      "imageUrl": "https://yourdomain.com/data/images/electronics/laptop.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "elect-004",
+      "name": "Smartphone",
+      "description": "Latest-gen smartphone with dual cameras, 5G support, and vibrant AMOLED display.",
+      "price": 119.34,
+      "currency": "EUR",
+      "category": "Electronics",
+      "city": "San Francisco",
+      "imageUrl": "https://yourdomain.com/data/images/electronics/smartphone.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "cloth-001",
+      "name": "T-Shirt",
+      "description": "Soft cotton crew neck T-shirt, perfect for casual wear.",
+      "price": 242.21,
+      "currency": "USD",
+      "category": "Clothing",
+      "city": "San Francisco",
+      "imageUrl": "https://yourdomain.com/data/images/clothing/tshirt.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "cloth-002",
+      "name": "Jeans",
+      "description": "Classic straight-leg jeans made from stretch denim for all-day comfort.",
+      "price": 157.12,
+      "currency": "USD",
+      "category": "Clothing",
+      "city": "Los Angeles",
+      "imageUrl": "https://yourdomain.com/data/images/clothing/jeans.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "cloth-003",
+      "name": "Jacket",
+      "description": "Denim jacket with metal buttons and inner lining for cooler days.",
+      "price": 256.09,
+      "currency": "EUR",
+      "category": "Clothing",
+      "city": "New York",
+      "imageUrl": "https://yourdomain.com/data/images/clothing/jacket.jpg",
+      "$vector": null
+    },
+    {
+      "productId": "cloth-004",
+      "name": "Shoes",
+      "description": "Brown leather lace-up shoes suitable for formal and casual occasions.",
+      "price": 142.93,
+      "currency": "EUR",
+      "category": "Clothing",
+      "city": "Seattle",
+      "imageUrl": "https://yourdomain.com/data/images/clothing/shoes.jpg",
+      "$vector": null
+    }
+  ]
