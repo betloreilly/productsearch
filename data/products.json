@@ -1,90 +1,167 @@
 [
-    {
-      "productId": "elect-001",
-      "name": "Headphones",
-      "description": "Experience immersive sound with these comfortable over-ear headphones featuring active noise cancellation and long battery life. Bluetooth 5.0 connectivity.",
-      "price": 38.09,
-      "currency": "USD",
-      "category": "Electronics",
-      "city": "Seattle",
-      "imageUrl": "https://yourdomain.com/data/images/electronics/headphones.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "elect-002",
-      "name": "Speaker",
-      "description": "Portable Bluetooth speaker with rich bass, 12-hour battery, and waterproof design.",
-      "price": 220.87,
-      "currency": "USD",
-      "category": "Electronics",
-      "city": "San Francisco",
-      "imageUrl": "https://yourdomain.com/data/images/electronics/speaker.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "elect-003",
-      "name": "Laptop",
-      "description": "Sleek ultrabook with 13.3-inch Retina display, 16GB RAM, and 512GB SSD.",
-      "price": 106.5,
-      "currency": "EUR",
-      "category": "Electronics",
-      "city": "Seattle",
-      "imageUrl": "https://yourdomain.com/data/images/electronics/laptop.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "elect-004",
-      "name": "Smartphone",
-      "description": "Latest-gen smartphone with dual cameras, 5G support, and vibrant AMOLED display.",
-      "price": 119.34,
-      "currency": "EUR",
-      "category": "Electronics",
-      "city": "San Francisco",
-      "imageUrl": "https://yourdomain.com/data/images/electronics/smartphone.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "cloth-001",
-      "name": "T-Shirt",
-      "description": "Soft cotton crew neck T-shirt, perfect for casual wear.",
-      "price": 242.21,
-      "currency": "USD",
-      "category": "Clothing",
-      "city": "San Francisco",
-      "imageUrl": "https://yourdomain.com/data/images/clothing/tshirt.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "cloth-002",
-      "name": "Jeans",
-      "description": "Classic straight-leg jeans made from stretch denim for all-day comfort.",
-      "price": 157.12,
-      "currency": "USD",
-      "category": "Clothing",
-      "city": "Los Angeles",
-      "imageUrl": "https://yourdomain.com/data/images/clothing/jeans.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "cloth-003",
-      "name": "Jacket",
-      "description": "Denim jacket with metal buttons and inner lining for cooler days.",
-      "price": 256.09,
-      "currency": "EUR",
-      "category": "Clothing",
-      "city": "New York",
-      "imageUrl": "https://yourdomain.com/data/images/clothing/jacket.jpg",
-      "$vector": null
-    },
-    {
-      "productId": "cloth-004",
-      "name": "Shoes",
-      "description": "Brown leather lace-up shoes suitable for formal and casual occasions.",
-      "price": 142.93,
-      "currency": "EUR",
-      "category": "Clothing",
-      "city": "Seattle",
-      "imageUrl": "https://yourdomain.com/data/images/clothing/shoes.jpg",
-      "$vector": null
-    }
-  ]
+  {
+    "productId": "electronics-001",
+    "name": "AuraMax Noise-Cancelling Headphones",
+    "description": "Immerse yourself in sound with AuraMax. Sleek, matte black over-ear headphones featuring 30+ hour battery life and plush earcups. Perfect for uninterrupted travel or focused work sessions.",
+    "price": 179.99,
+    "currency": "USD",
+    "category": "Electronics",
+    "city": "Seattle",
+    "imageUrl": "public/images/electronics/electronics-001.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "clothing-001",
+    "name": "Evergreen Peak Organic Cotton Tee",
+    "description": "Soft, breathable unisex t-shirt in a gentle cream hue. Made from eco-friendly organic cotton featuring a minimalist mountain range graphic. Comfort meets conscious style.",
+    "price": 34.95,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "Portland",
+    "imageUrl": "public/images/clothing/clothing-001.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "electronics-002",
+    "name": "TempoFit Smartwatch Tracker",
+    "description": "Stay on top of your goals with TempoFit. Tracks heart rate, steps, and sleep with GPS on a clear round display. Water-resistant with an interchangeable charcoal grey silicone strap.",
+    "price": 129.50,
+    "currency": "USD",
+    "category": "Electronics / Wearables",
+    "city": "San Francisco",
+    "imageUrl": "public/images/electronics/electronics-002.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "homegoods-001",
+    "name": "Artisan Brew Stainless Steel French Press",
+    "description": "Brew rich, flavorful coffee with this classic 8-cup French Press. Durable, double-walled stainless steel construction keeps coffee hot longer. Easy to use and clean.",
+    "price": 45.00,
+    "currency": "USD",
+    "category": "Home Goods / Kitchen",
+    "city": "Seattle",
+    "imageUrl": "public/images/homegoods/homegoods-001.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "accessories-001",
+    "name": "Nomad Trail Lightweight Waterproof Backpack",
+    "description": "Your perfect companion for adventure or commute. Royal blue, 25L backpack made from tear-resistant nylon. Features multiple compartments, laptop sleeve, and padded straps.",
+    "price": 69.99,
+    "currency": "USD",
+    "category": "Accessories / Bags",
+    "city": "Denver",
+    "imageUrl": "public/images/accessories/accessories-001.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "clothing-002",
+    "name": "Zenith High-Waisted Yoga Leggings",
+    "description": "Flow freely in Zenith leggings. Deep teal, four-way stretch fabric moves with you. Moisture-wicking with a convenient hidden waistband pocket. Ideal for studio or street.",
+    "price": 59.95,
+    "currency": "USD",
+    "category": "Clothing / Activewear",
+    "city": "Los Angeles",
+    "imageUrl": "public/images/clothing/clothing-002.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "electronics-003",
+    "name": "GrooveRover Portable Bluetooth Speaker",
+    "description": "Take your tunes anywhere! Rugged, forest green portable speaker with IPX7 waterproof rating. Delivers rich bass and 12 hours of playtime. Includes carabiner clip.",
+    "price": 49.99,
+    "currency": "USD",
+    "category": "Electronics / Audio",
+    "city": "Austin",
+    "imageUrl": "public/images/electronics/electronics-003.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "homegoods-002",
+    "name": "Hearthstone Ceramic Mug with Bamboo Lid",
+    "description": "Enjoy your favorite beverage in this modern 14oz ceramic mug. Features a unique speckled white glaze and includes a bamboo lid to keep drinks warm. Comfortable handle.",
+    "price": 18.50,
+    "currency": "USD",
+    "category": "Home Goods / Kitchenware",
+    "city": "Chicago",
+    "imageUrl": "public/images/homegoods/homegoods-002.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "clothing-003",
+    "name": "Seabreeze Men's Casual Linen Shirt",
+    "description": "Stay cool and stylish in this light sky blue linen shirt. Breathable fabric, relaxed fit, button-down front, and roll-up long sleeves make it perfect for warm weather.",
+    "price": 65.00,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "Miami",
+    "imageUrl": "public/images/clothing/clothing-003.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "electronics-004",
+    "name": "ErgoLift Adjustable Laptop Stand",
+    "description": "Improve your workspace ergonomics. Sleek silver aluminum alloy stand adjusts height for better posture. Foldable and portable, fits laptops 10-17 inches.",
+    "price": 39.99,
+    "currency": "USD",
+    "category": "Electronics / Accessories",
+    "city": "New York",
+    "imageUrl": "public/images/electronics/electronics-004.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "homegoods-003",
+    "name": "Luxe Velvet Throw Pillow Cover (Emerald Green)",
+    "description": "Add a touch of luxury with this soft, rich emerald green velvet pillow cover. 18x18 inch square with hidden zipper. (Insert not included).",
+    "price": 22.95,
+    "currency": "USD",
+    "category": "Home Goods / Decor",
+    "city": "New York",
+    "imageUrl": "public/images/homegoods/homegoods-003.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "accessories-002",
+    "name": "Skyline Polarized Aviator Sunglasses",
+    "description": "Classic unisex aviator sunglasses with a thin gold metal frame. Dark grey polarized lenses provide essential UV protection and reduce glare. Timeless style.",
+    "price": 75.00,
+    "currency": "USD",
+    "category": "Accessories / Eyewear",
+    "city": "Los Angeles",
+    "imageUrl": "public/images/accessories/accessories-002.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "clothing-004",
+    "name": "Rebel Chic Women's Faux Leather Moto Jacket",
+    "description": "Unleash your inner rebel with this classic black moto jacket. Crafted from quality faux leather with an asymmetrical zip, zippered pockets, and a flattering fitted silhouette.",
+    "price": 89.99,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "Chicago",
+    "imageUrl": "public/images/clothing/clothing-004.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "homegoods-004",
+    "name": "PrecisionPour Electric Gooseneck Kettle",
+    "description": "Perfect your pour-over coffee or tea. This 1L electric kettle features precise temperature control and a gooseneck spout. Elegant matte black stainless steel design.",
+    "price": 64.95,
+    "currency": "USD",
+    "category": "Home Goods / Kitchen Appliances",
+    "city": "Portland",
+    "imageUrl": "public/images/homegoods/homegoods-004.jpg",
+    "$vector": null
+  },
+  {
+    "productId": "accessories-003",
+    "name": "Nomad Slim Leather Card Holder Wallet",
+    "description": "Carry your essentials in style. Minimalist tan wallet crafted from full-grain leather. Holds 4-6 cards and folded bills, featuring RFID blocking technology.",
+    "price": 42.50,
+    "currency": "USD",
+    "category": "Accessories / Wallets",
+    "city": "Austin",
+    "imageUrl": "public/images/accessories/accessories-003.jpg",
+    "$vector": null
+  }
+]
