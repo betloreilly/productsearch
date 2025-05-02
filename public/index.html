@@ -55,8 +55,15 @@
 
             <main id="resultsContainer" aria-live="polite">
                 <!-- Search results will be displayed here -->
-                <p class="initial-message">Loading products...</p> 
+                <p class="initial-message">Loading products...</p>
             </main>
+
+            <div id="paginationControls" class="pagination-controls" style="display: none;"> 
+                <button id="prevButton" disabled>&laquo; Previous</button>
+                <span id="pageInfo">Page 1</span>
+                <button id="nextButton" disabled>Next &raquo;</button>
+            </div>
+
         </div> <!-- /main-content -->
 
     </div> <!-- /page-wrapper -->

@@ -226,6 +226,40 @@ body {
     padding: 20px;
 }
 
+/* Pagination Controls */
+.pagination-controls {
+    display: flex; /* Hidden initially via inline style */
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.pagination-controls button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pagination-controls button:hover:not([disabled]) {
+    background-color: #0056b3;
+}
+
+.pagination-controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.pagination-controls span {
+    font-weight: 500;
+    color: #333;
+}
 
 /* Responsiveness */
 @media (max-width: 992px) { /* Adjust breakpoint for sidebar */

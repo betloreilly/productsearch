@@ -91,14 +91,21 @@ app.post('/search', async (req, res) => {
   }
 
   try {
-    const { query, city, minPrice, maxPrice, category, limit = 5 } = req.body;
+    // Add page to destructured params, default to 1
+    const { query, city, minPrice, maxPrice, category, limit = 10, page = 1 } = req.body; 
 
-    console.log('Received search request:', req.body);
+    const parsedLimit = parseInt(limit, 10);
+    const parsedPage = parseInt(page, 10);
+    // Calculate skip value for pagination
+    const skip = (parsedPage - 1) * parsedLimit;
 
-    // 1. Generate embedding for the search query (if provided)
+    // Log received params including page
+    console.log('Received search request:', { ...req.body, page: parsedPage, limit: parsedLimit });
+
+    // 1. Generate embedding (if query provided)
     const queryVector = await getEmbedding(query);
 
-    // 2. Construct Filter (for hybrid search)
+    // 2. Construct Filter
     const filter = {};
     if (city) filter.city = city;
     if (category) filter.category = category;
@@ -108,40 +115,44 @@ app.post('/search', async (req, res) => {
       if (maxPrice !== undefined) filter.price.$lte = parseFloat(maxPrice);
     }
 
-    // 3. Perform the search
-    let searchResults;
-    const options = {
-      limit: parseInt(limit, 10),
-      // Exclude the vector from the results unless needed
-      projection: { '$vector': 0 }, 
+    // 3. Perform the search - Fetch one extra document to check for next page
+    const fetchLimit = parsedLimit + 1; 
+    let findOptions = {
+      limit: fetchLimit,
+      skip: skip,
+      projection: { '$vector': 0 },
     };
 
+    let cursor;
     if (queryVector) {
-      // --- Vector Search (with optional filtering) ---
-      console.log('Performing vector search with filter:', filter);
-      searchResults = await productsCollection.find(filter, {
-        sort: {
-          $vector: queryVector,
-        },
-        ...options
-      }).toArray();
-
-    } else if (Object.keys(filter).length > 0) {
-       // --- Filter-Only Search (no vector query) ---
-      console.log('Performing filter-only search:', filter);
-      searchResults = await productsCollection.find(filter, options).toArray();
-
+        // Vector Search
+        console.log('Performing vector search with filter:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}, Skip: ${skip}`);
+        cursor = productsCollection.find(filter, {
+            sort: { $vector: queryVector },
+            limit: findOptions.limit,
+            skip: findOptions.skip,
+            projection: findOptions.projection
+        });
     } else {
-        // --- No query and no filters: Load initial/all products (respecting limit) ---
-        console.log('No search query or specific filters provided. Fetching initial products.');
-        // OLD: return res.status(400).json({ message: 'Please provide a search query or filters.' });
-        // NEW: Fetch all documents, respecting the limit and projection options
-        searchResults = await productsCollection.find({}, options).toArray();
+        // Filter-based or initial load search
+        console.log('Performing filter/initial search:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}, Skip: ${skip}`);
+        cursor = productsCollection.find(filter, findOptions);
     }
 
-    // 4. Return results
-    console.log(`Found ${searchResults.length} results.`);
-    res.json(searchResults);
+    const results = await cursor.toArray();
+
+    // Determine if there is a next page
+    const hasNextPage = results.length > parsedLimit;
+    // Slice the results to the requested limit if necessary
+    const pageResults = hasNextPage ? results.slice(0, parsedLimit) : results;
+
+    // 4. Return results along with pagination info
+    console.log(`Found ${results.length} raw results. Returning ${pageResults.length} for page ${parsedPage}. HasNextPage: ${hasNextPage}`);
+    res.json({ 
+        data: pageResults, 
+        hasNextPage: hasNextPage, 
+        currentPage: parsedPage // Good to send back confirmation 
+    });
 
   } catch (error) {
     console.error('Search endpoint error:', error);

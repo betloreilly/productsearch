@@ -6,22 +6,51 @@ const minPriceFilterInput = document.getElementById('minPriceFilter');
 const maxPriceFilterInput = document.getElementById('maxPriceFilter');
 const limitFilterInput = document.getElementById('limitFilter');
 const resultsContainer = document.getElementById('resultsContainer');
+const paginationControlsDiv = document.getElementById('paginationControls');
+const prevButton = document.getElementById('prevButton');
+const nextButton = document.getElementById('nextButton');
+const pageInfoSpan = document.getElementById('pageInfo');
+
+// --- State --- 
+let currentPage = 1;
+let currentSearchPayload = {}; // Store the last used search filters/query
 
 // Add event listener for DOMContentLoaded to load initial products
 document.addEventListener('DOMContentLoaded', () => {
-    loadInitialProducts();
+    // Load initial products for page 1
+    fetchAndDisplayPage(1, {}, true); 
 });
 
-searchButton.addEventListener('click', performSearch);
+searchButton.addEventListener('click', () => {
+    // Reset to page 1 when a new search is performed
+    currentPage = 1;
+    performSearchAndDisplay(); 
+});
+
+prevButton.addEventListener('click', () => {
+    if (currentPage > 1) {
+        currentPage--;
+        fetchAndDisplayPage(currentPage, currentSearchPayload); // Fetch previous page with current filters
+    }
+});
+
+nextButton.addEventListener('click', () => {
+    currentPage++;
+    fetchAndDisplayPage(currentPage, currentSearchPayload); // Fetch next page with current filters
+});
 
 // Function to load initial products
-async function loadInitialProducts() {
-    console.log('Loading initial products...');
-    resultsContainer.innerHTML = '<p>Loading products...</p>'; // Update initial message
+async function fetchAndDisplayPage(page, searchPayload = {}, isInitialLoad = false) {
+    console.log(`Fetching page ${page} with payload:`, searchPayload);
+    resultsContainer.innerHTML = `<p>${isInitialLoad ? 'Loading products...' : 'Fetching results...'}</p>`;
+    paginationControlsDiv.style.display = 'none'; // Hide controls while loading
 
-    const initialPayload = {
-        limit: 10 // Load a few more initially, adjust as needed
-        // Add default filters here if desired
+    // Ensure limit and page are set in the payload for the API call
+    const limit = parseInt(limitFilterInput.value, 10) || 10; // Use input value or default
+    const payloadWithPaging = {
+        ...searchPayload,
+        limit: limit,
+        page: page
     };
 
     try {
@@ -30,81 +59,65 @@ async function loadInitialProducts() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(initialPayload),
+            body: JSON.stringify(payloadWithPaging),
         });
 
         if (!response.ok) {
-            // Try to parse error, fallback to status text
             let errorMsg = `HTTP error! status: ${response.status}`;
             try {
                 const errorData = await response.json();
                 errorMsg = errorData.message || errorMsg;
-            } catch (parseError) { /* Ignore if error response isn't JSON */ }
+            } catch (parseError) { /* Ignore */ }
             throw new Error(errorMsg);
         }
 
-        const results = await response.json();
-        displayResults(results);
+        const responseData = await response.json(); 
+        displayResults(responseData.data); // Display only the data array
+        
+        // Update current page state ONLY after successful fetch
+        currentPage = responseData.currentPage; 
+        updatePaginationControls(responseData.hasNextPage);
 
     } catch (error) {
-        console.error('Initial load failed:', error);
-        // Clear loading message and show error
-        resultsContainer.innerHTML = `<p style="color: red;">Error loading initial products: ${error.message}</p>`;
+        console.error(`Fetch failed for page ${page}:`, error);
+        resultsContainer.innerHTML = `<p style="color: red;">Error loading results: ${error.message}</p>`;
+        // Keep pagination hidden on error
     }
 }
 
-async function performSearch() {
+// Gets filters, resets page, stores filters, and fetches page 1
+function performSearchAndDisplay() {
     const query = searchQueryInput.value.trim();
     const city = cityFilterInput.value.trim();
     const category = categoryFilterInput.value.trim();
     const minPrice = minPriceFilterInput.value;
     const maxPrice = maxPriceFilterInput.value;
-    const limit = limitFilterInput.value || 10; // Match initial load default or use input
+    // Limit is handled within fetchAndDisplayPage
 
-    const searchPayload = {};
-    if (query) searchPayload.query = query;
-    if (city) searchPayload.city = city;
-    if (category) searchPayload.category = category;
-    if (minPrice !== '') searchPayload.minPrice = parseFloat(minPrice);
-    if (maxPrice !== '') searchPayload.maxPrice = parseFloat(maxPrice);
-    searchPayload.limit = parseInt(limit, 10);
+    // Store the current search criteria for pagination
+    currentSearchPayload = {};
+    if (query) currentSearchPayload.query = query;
+    if (city) currentSearchPayload.city = city;
+    if (category) currentSearchPayload.category = category;
+    if (minPrice !== '') currentSearchPayload.minPrice = parseFloat(minPrice);
+    if (maxPrice !== '') currentSearchPayload.maxPrice = parseFloat(maxPrice);
 
-    console.log('Sending search payload:', searchPayload);
-    resultsContainer.innerHTML = '<p>Searching...</p>'; // Provide feedback
-
-    try {
-        const response = await fetch('/search', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(searchPayload),
-        });
-
-        if (!response.ok) {
-            // Try to parse error, fallback to status text
-            let errorMsg = `HTTP error! status: ${response.status}`;
-            try {
-                const errorData = await response.json();
-                errorMsg = errorData.message || errorMsg;
-            } catch (parseError) { /* Ignore if error response isn't JSON */ }
-            throw new Error(errorMsg);
-        }
-
-        const results = await response.json();
-        displayResults(results);
-
-    } catch (error) {
-        console.error('Search failed:', error);
-        resultsContainer.innerHTML = `<p style="color: red;">Error during search: ${error.message}</p>`;
-    }
+    console.log('Storing search payload for pagination:', currentSearchPayload);
+    
+    // Fetch the first page with the new criteria
+    fetchAndDisplayPage(1, currentSearchPayload); 
 }
 
 function displayResults(results) {
-    resultsContainer.innerHTML = ''; // Clear previous results or searching message
+    resultsContainer.innerHTML = ''; // Clear previous results or loading message
 
     if (!results || results.length === 0) {
-        resultsContainer.innerHTML = '<p>No products found matching your criteria.</p>';
+        // Check if it was an initial load or a search with no results
+        if (currentPage === 1 && Object.keys(currentSearchPayload).length === 0) {
+             resultsContainer.innerHTML = '<p>No products found in the database.</p>';
+        } else {
+             resultsContainer.innerHTML = '<p>No products found matching your criteria.</p>';
+        }
         return;
     }
 
@@ -141,4 +154,18 @@ function displayResults(results) {
         productDiv.innerHTML = content;
         resultsContainer.appendChild(productDiv);
     });
+}
+
+// --- UI Update Functions ---
+function updatePaginationControls(hasNextPage) {
+    if (currentPage === 1 && !hasNextPage) {
+        // Hide if only one page of results
+        paginationControlsDiv.style.display = 'none';
+        return;
+    }
+
+    paginationControlsDiv.style.display = 'flex'; // Show the controls
+    pageInfoSpan.textContent = `Page ${currentPage}`;
+    prevButton.disabled = currentPage <= 1;
+    nextButton.disabled = !hasNextPage;
 } 
