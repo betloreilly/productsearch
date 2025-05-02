@@ -65,7 +65,11 @@ function displayResults(results) {
 
         let content = '';
         if (product.imageUrl) {
-            content += `<img src="${product.imageUrl}" alt="${product.name}" onerror="this.style.display='none'">`; // Hide image if it fails to load
+            // Remove 'public/' prefix if it exists for the image src attribute
+            const imageSrc = product.imageUrl.startsWith('public/')
+                             ? product.imageUrl.substring(7) // Remove 'public/' (7 chars)
+                             : product.imageUrl;
+            content += `<img src="${imageSrc}" alt="${product.name}" onerror="this.style.display='none'">`;
         }
         content += `<h3>${product.name}</h3>`;
         if (product.description) {
