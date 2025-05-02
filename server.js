@@ -91,21 +91,15 @@ app.post('/search', async (req, res) => {
   }
 
   try {
-    // Add page to destructured params, default to 1
     const { query, city, minPrice, maxPrice, category, limit = 10, page = 1 } = req.body; 
-
     const parsedLimit = parseInt(limit, 10);
     const parsedPage = parseInt(page, 10);
-    // Calculate skip value for pagination
     const skip = (parsedPage - 1) * parsedLimit;
 
-    // Log received params including page
     console.log('Received search request:', { ...req.body, page: parsedPage, limit: parsedLimit });
 
-    // 1. Generate embedding (if query provided)
     const queryVector = await getEmbedding(query);
 
-    // 2. Construct Filter
     const filter = {};
     if (city) filter.city = city;
     if (category) filter.category = category;
@@ -115,52 +109,54 @@ app.post('/search', async (req, res) => {
       if (maxPrice !== undefined) filter.price.$lte = parseFloat(maxPrice);
     }
 
-    // 3. Perform the search - Fetch one extra document to check for next page
+    // Fetch one extra document to check for next page
     const fetchLimit = parsedLimit + 1; 
+
+    // Define base options
     let findOptions = {
       limit: fetchLimit,
       skip: skip,
       projection: { '$vector': 0 },
+      // Initialize sort object
+      sort: {}
     };
 
     let cursor;
     if (queryVector) {
-        // Vector Search
-        console.log('Performing vector search with filter:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}, Skip: ${skip}`);
-        cursor = productsCollection.find(filter, {
-            sort: { $vector: queryVector },
-            limit: findOptions.limit,
-            skip: findOptions.skip,
-            projection: findOptions.projection
-        });
+        // Vector Search - Add vector sort
+        findOptions.sort = { $vector: queryVector };
+        console.log('Performing vector search with filter:', filter, `Options:`, findOptions);
+        cursor = productsCollection.find(filter, findOptions);
     } else {
-        // Filter-based or initial load search
-        console.log('Performing filter/initial search:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}, Skip: ${skip}`);
+        // Filter-based or initial load search - Add default sort by _id
+        findOptions.sort = { _id: 1 }; // Default sort for consistent skipping
+        console.log('Performing filter/initial search:', filter, `Options:`, findOptions);
         cursor = productsCollection.find(filter, findOptions);
     }
 
+    // Execute the find operation
     const results = await cursor.toArray();
 
-    // Determine if there is a next page
     const hasNextPage = results.length > parsedLimit;
-    // Slice the results to the requested limit if necessary
     const pageResults = hasNextPage ? results.slice(0, parsedLimit) : results;
 
-    // 4. Return results along with pagination info
     console.log(`Found ${results.length} raw results. Returning ${pageResults.length} for page ${parsedPage}. HasNextPage: ${hasNextPage}`);
     res.json({ 
         data: pageResults, 
         hasNextPage: hasNextPage, 
-        currentPage: parsedPage // Good to send back confirmation 
+        currentPage: parsedPage 
     });
 
   } catch (error) {
-    console.error('Search endpoint error:', error);
-    if (error.message === 'Failed to generate search embedding.') {
-        res.status(500).json({ message: 'Error generating search embedding.' });
-    } else {
-        res.status(500).json({ message: 'An error occurred during the search.' });
-    }
+      console.error('Search endpoint error:', error);
+      // Log the error more verbosely if possible
+      // e.g., console.error(error.stack);
+      if (error.message === 'Failed to generate search embedding.') {
+          res.status(500).json({ message: 'Error generating search embedding.' });
+      } else {
+           // Provide a slightly more specific default message if needed
+          res.status(500).json({ message: 'An error occurred during the search process.' });
+      }
   }
 });
 
