@@ -5,7 +5,7 @@ from openai import OpenAI
 import time
 
 # --- Configuration ---
-PRODUCTS_JSON_PATH = 'data/products.json'
+PRODUCTS_JSON_PATH = 'data/products2.json' # Changed temporarily for batch 2
 IMAGE_SIZE = "1024x1024"  # DALL-E 3 supports 1024x1024, 1792x1024, 1024x1792
 IMAGE_QUALITY = "standard" # options: standard, hd
 DALLE_MODEL = "dall-e-3"
