@@ -3,29 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Finder</title>
+    <!-- Consider adding a link to a modern font if desired -->
+    <title>Product Search</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Product Finder</h1>
 
-    <div class="search-container">
-        <input type="text" id="searchQuery" placeholder="Describe the product you want...">
-        
-        <div class="filters">
-            <input type="text" id="cityFilter" placeholder="City (optional)">
-            <input type="text" id="categoryFilter" placeholder="Category (optional)">
-            <input type="number" id="minPriceFilter" placeholder="Min Price (optional)">
-            <input type="number" id="maxPriceFilter" placeholder="Max Price (optional)">
-            <input type="number" id="limitFilter" placeholder="Limit (optional, default 5)" min="1" value="5">
+    <div class="container">
+        <header class="header">
+            <h1>Product Search</h1>
+        </header>
+
+        <div class="search-controls">
+            <div class="search-bar-container">
+                <label for="searchQuery" class="sr-only">Search Products</label> <!-- Screen-reader only label -->
+                <input type="text" id="searchQuery" placeholder="Search for products...">
+                <button id="searchButton">Search</button>
+            </div>
+
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="cityFilter">City</label>
+                    <input type="text" id="cityFilter" placeholder="e.g., Seattle">
+                </div>
+                <div class="filter-group">
+                    <label for="categoryFilter">Category</label>
+                    <input type="text" id="categoryFilter" placeholder="e.g., Electronics">
+                </div>
+                <div class="filter-group price-group">
+                    <label for="minPriceFilter">Min Price</label>
+                    <input type="number" id="minPriceFilter" placeholder="Min">
+                </div>
+                <div class="filter-group price-group">
+                    <label for="maxPriceFilter">Max Price</label>
+                    <input type="number" id="maxPriceFilter" placeholder="Max">
+                </div>
+                <div class="filter-group">
+                    <label for="limitFilter">Limit</label>
+                    <input type="number" id="limitFilter" placeholder="5" min="1" value="5">
+                </div>
+            </div>
         </div>
 
-        <button id="searchButton">Search</button>
-    </div>
+        <main id="resultsContainer" aria-live="polite">
+            <!-- Search results will be displayed here -->
+            <p class="initial-message">Enter a search query or filters to find products.</p>
+        </main>
 
-    <div id="resultsContainer">
-        <!-- Search results will be displayed here -->
-    </div>
+    </div> <!-- /container -->
 
     <script src="script.js"></script>
 </body>

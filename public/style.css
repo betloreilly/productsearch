@@ -1,96 +1,255 @@
+/* Reset and Base Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    font-family: sans-serif;
-    margin: 20px;
-    background-color: #f4f4f4;
-}
-
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-.search-container {
-    background-color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    background-color: #f0f2f5; /* Light grey background */
+    color: #111; /* Dark grey text */
+    line-height: 1.5;
     padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff; /* White background for main content */
+    padding: 25px 30px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.header h1 {
+    text-align: center;
+    color: #0f1111; /* Near black */
+    margin-bottom: 25px;
+    font-weight: 500;
+}
+
+/* Search Controls */
+.search-controls {
+    margin-bottom: 30px;
+}
+
+.search-bar-container {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px; /* Rounded corners for the combined bar */
+    overflow: hidden; /* Clip shadow correctly */
 }
 
-.search-container input[type="text"],
-.search-container input[type="number"] {
-    width: calc(100% - 22px); /* Adjust for padding/border */
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+#searchQuery {
+    flex-grow: 1;
+    padding: 12px 15px;
+    font-size: 1rem;
+    border: 1px solid #ced4da; /* Slightly softer border */
+    border-right: none;
+    /* Remove individual border-radius, apply to container */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    min-width: 200px; /* Prevent excessive shrinking */
 }
 
-.filters {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin-bottom: 15px;
+#searchQuery:focus {
+    outline: none;
+    border-color: #adb5bd;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25); /* Subtle focus indicator */
+    z-index: 1; /* Ensure focus shadow appears above button */
 }
 
-.search-container button {
-    background-color: #5c67f2;
+#searchButton {
+    background-color: #007bff; /* Primary blue */
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 4px;
+    /* Remove individual border-radius, apply to container */
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
     cursor: pointer;
-    font-size: 1em;
-    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    white-space: nowrap; /* Prevent button text wrapping */
 }
 
-.search-container button:hover {
-    background-color: #4a54c4;
+#searchButton:hover {
+    background-color: #0056b3; /* Darker blue on hover */
 }
 
+/* Filter Controls */
+.filter-controls {
+    display: flex;
+    flex-wrap: wrap; /* Allow filters to wrap on smaller screens */
+    gap: 20px; /* Spacing between filter groups */
+    align-items: flex-end; /* Align items to the bottom */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 100px; /* Minimum width */
+}
+
+.filter-group label {
+    font-size: 0.85rem;
+    color: #495057; /* Medium grey */
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.filter-controls input[type="text"],
+.filter-controls input[type="number"] {
+    padding: 8px 10px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
+    width: 100%; /* Make inputs take full width of their group */
+}
+
+.filter-controls input[type="number"] {
+    /* Adjust width specifically for number inputs if needed */
+    max-width: 120px;
+}
+
+.filter-controls input:focus {
+    outline: none;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.price-group {
+   /* Specific styling for price group if needed */
+}
+
+/* Screen Reader Only Label */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Results */
 #resultsContainer {
+    margin-top: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    /* Responsive grid: more columns on wider screens */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
 }
 
 .product-item {
     background-color: #fff;
-    padding: 15px;
+    border: 1px solid #dee2e6; /* Lighter border */
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    border: 1px solid #eee;
+    padding: 20px;
+    display: flex; /* Use flexbox for better internal layout */
+    flex-direction: column; /* Stack elements vertically */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s ease-in-out;
+}
+
+.product-item:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
 .product-item img {
     max-width: 100%;
-    height: auto;
+    height: 200px; /* Fixed height for consistency */
+    object-fit: contain; /* Scale image nicely within bounds */
     border-radius: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    align-self: center; /* Center the image */
 }
 
 .product-item h3 {
     margin-top: 0;
-    margin-bottom: 5px;
-    font-size: 1.1em;
-    color: #333;
+    margin-bottom: 8px;
+    font-size: 1.1rem; /* Slightly larger */
+    color: #111;
+    font-weight: 500;
+    line-height: 1.3;
 }
 
 .product-item p {
-    font-size: 0.9em;
-    color: #666;
-    margin-bottom: 5px;
+    font-size: 0.95rem;
+    color: #555;
+    margin-bottom: 10px;
+    flex-grow: 1; /* Allow description to take up space */
 }
 
 .product-item .price {
     font-weight: bold;
-    color: #007bff;
+    color: #B12704; /* Amazon-like price color */
+    font-size: 1.1rem;
+    margin-bottom: 10px;
 }
 
-.product-item .category, 
+.product-item .category,
 .product-item .city {
-    font-size: 0.8em;
-    color: #777;
-    display: block; /* Ensure they appear on new lines */
-    margin-bottom: 3px;
+    font-size: 0.85rem;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.initial-message,
+#resultsContainer p {
+    grid-column: 1 / -1; /* Make messages span all columns if grid is active */
+    text-align: center;
+    color: #6c757d; /* Muted color */
+    padding: 20px;
+}
+
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .filter-controls {
+        gap: 15px;
+    }
+    .filter-group {
+        min-width: calc(50% - 10px); /* Two columns on smaller screens */
+    }
+    .filter-controls input[type="number"] {
+        max-width: none; /* Allow number inputs to take full width */
+    }
+    .container {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-bar-container {
+        flex-direction: column;
+        box-shadow: none;
+        border-radius: 0;
+    }
+    #searchQuery {
+        border-radius: 8px;
+        border-right: 1px solid #ced4da; /* Add border back */
+        margin-bottom: 10px;
+        width: 100%;
+    }
+    #searchButton {
+        border-radius: 8px;
+        width: 100%;
+    }
+    .filter-group {
+        min-width: 100%; /* Full width on very small screens */
+    }
+    #resultsContainer {
+        grid-template-columns: 1fr; /* Single column results */
+    }
+
 } 
