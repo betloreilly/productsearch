@@ -132,12 +132,11 @@ app.post('/search', async (req, res) => {
       searchResults = await productsCollection.find(filter, options).toArray();
 
     } else {
-      // --- No query and no filters - maybe return error or featured items? ---
-      console.log('No search query or filters provided.');
-      // For now, return empty results or a specific message
-      return res.status(400).json({ message: 'Please provide a search query or filters.' });
-      // Alternatively, return some default items:
-      // searchResults = await productsCollection.find({}, options).toArray(); 
+        // --- No query and no filters: Load initial/all products (respecting limit) ---
+        console.log('No search query or specific filters provided. Fetching initial products.');
+        // OLD: return res.status(400).json({ message: 'Please provide a search query or filters.' });
+        // NEW: Fetch all documents, respecting the limit and projection options
+        searchResults = await productsCollection.find({}, options).toArray();
     }
 
     // 4. Return results
