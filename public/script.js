@@ -1,6 +1,6 @@
 const searchButton = document.getElementById('searchButton');
 const searchQueryInput = document.getElementById('searchQuery');
-const cityFilterInput = document.getElementById('cityFilter');
+// const cityFilterInput = document.getElementById('cityFilter'); // Removed
 const categoryFilterInput = document.getElementById('categoryFilter');
 const minPriceFilterInput = document.getElementById('minPriceFilter');
 const maxPriceFilterInput = document.getElementById('maxPriceFilter');
@@ -88,7 +88,7 @@ async function fetchAndDisplayPage(page, searchPayload = {}, isInitialLoad = fal
 // Gets filters, resets page, stores filters, and fetches page 1
 function performSearchAndDisplay() {
     const query = searchQueryInput.value.trim();
-    const city = cityFilterInput.value.trim();
+    // const city = cityFilterInput.value.trim(); // Removed
     const category = categoryFilterInput.value.trim();
     const minPrice = minPriceFilterInput.value;
     const maxPrice = maxPriceFilterInput.value;
@@ -97,7 +97,7 @@ function performSearchAndDisplay() {
     // Store the current search criteria for pagination
     currentSearchPayload = {};
     if (query) currentSearchPayload.query = query;
-    if (city) currentSearchPayload.city = city;
+    // if (city) currentSearchPayload.city = city; // Removed
     if (category) currentSearchPayload.category = category;
     if (minPrice !== '') currentSearchPayload.minPrice = parseFloat(minPrice);
     if (maxPrice !== '') currentSearchPayload.maxPrice = parseFloat(maxPrice);
@@ -146,9 +146,6 @@ function displayResults(results) {
         }
         if (product.category) {
             content += `<span class="category">Category: ${product.category}</span>`;
-        }
-        if (product.city) {
-            content += `<span class="city">City: ${product.city}</span>`;
         }
 
         productDiv.innerHTML = content;

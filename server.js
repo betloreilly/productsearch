@@ -101,7 +101,6 @@ app.post('/search', async (req, res) => {
     const queryVector = await getEmbedding(query);
 
     const filter = {};
-    if (city) filter.city = city;
     if (category) filter.category = category;
     if (minPrice !== undefined || maxPrice !== undefined) {
       filter.price = {};
