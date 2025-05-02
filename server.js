@@ -4,14 +4,30 @@ const { DataAPIClient } = require('@datastax/astra-db-ts');
 const { OpenAI } = require('openai');
 const path = require('path');
 
-// Initialize Astra DB Client
-const client = new DataAPIClient(process.env.ASTRA_DB_APPLICATION_TOKEN);
-const db = client.db(process.env.ASTRA_DB_API_ENDPOINT);
-const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY });
+// Initialize Clients with Error Handling
+let client, db, openai, productsCollection;
+let initializationError = null;
 
-console.log(`Attempting to connect to DB: ${process.env.ASTRA_DB_API_ENDPOINT}`);
+try {
+  if (!process.env.ASTRA_DB_APPLICATION_TOKEN || !process.env.ASTRA_DB_API_ENDPOINT || !process.env.OPENAI_API_KEY) {
+    throw new Error("Missing required environment variables (ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT, OPENAI_API_KEY)");
+  }
 
-// TODO: Add logic to verify connection or handle potential errors during startup
+  client = new DataAPIClient(process.env.ASTRA_DB_APPLICATION_TOKEN);
+  db = client.db(process.env.ASTRA_DB_API_ENDPOINT);
+  openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY }); // Use OPENAI_API_KEY consistently
+
+  console.log(`Successfully initialized clients. DB Endpoint: ${process.env.ASTRA_DB_API_ENDPOINT}`);
+
+  // Get collection reference immediately after successful client init
+  productsCollection = db.collection('products');
+  console.log('Got reference to Astra DB \'products\' collection.');
+
+} catch (e) {
+  initializationError = e; // Store the error
+  console.error('FATAL: Failed to initialize clients or get collection:', e);
+  // Don't exit immediately, let requests be handled (and return error)
+}
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,26 +45,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   res.send('Hello Product Finder! Use POST /search to find products.');
 // });
 
-// Get reference to the collection
-let productsCollection;
-async function initializeDb() {
-  try {
-    // Ensure collection exists (optional check, loadData should have created it)
-    // await db.collection('products').exists(); // You might want a more robust check
-    productsCollection = db.collection('products');
-    console.log('Connected to Astra DB and \'products\' collection is ready.');
-  } catch (e) {
-    console.error('Failed to get Astra DB collection:', e);
-    process.exit(1); // Exit if we can't get the collection
-  }
-}
-
-// Initialize DB connection before potentially starting server or exporting app
-initializeDb().catch(err => {
-    console.error("Failed to initialize DB:", err);
-    process.exit(1);
-});
-
 // Start the server only if run directly (e.g., locally with `node server.js`)
 // Vercel will import the `app` object instead of running this directly.
 if (require.main === module) {
@@ -63,6 +59,12 @@ module.exports = app;
 // --- Helper Functions (Embedding) ---
 // Re-use or refactor embedding logic from loadData.js if needed
 async function getEmbedding(text) {
+  if (initializationError) { // Check if initialization failed
+     throw new Error("Server initialization failed, cannot generate embedding.");
+  }
+  if (!openai) { // Check if openai client is specifically missing
+      throw new Error("OpenAI client not initialized.");
+  }
   if (!text) return null;
   try {
     const response = await openai.embeddings.create({
@@ -79,8 +81,13 @@ async function getEmbedding(text) {
 
 // --- Search Endpoint ---
 app.post('/search', async (req, res) => {
+  // Check for initialization error first
+  if (initializationError) {
+    return res.status(503).json({ message: `Server initialization failed: ${initializationError.message}` });
+  }
   if (!productsCollection) {
-    return res.status(503).json({ message: 'Database collection not initialized.' });
+    // This case might be redundant now if init fails earlier, but keep as safety
+    return res.status(503).json({ message: 'Database collection not available.' });
   }
 
   try {
