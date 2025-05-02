@@ -7,6 +7,7 @@ const path = require('path');
 // Initialize Clients with Error Handling
 let client, db, openai, productsCollection;
 let initializationError = null;
+const COLLECTION_NAME = 'products'; // Define collection name
 
 try {
   if (!process.env.ASTRA_DB_APPLICATION_TOKEN || !process.env.ASTRA_DB_API_ENDPOINT || !process.env.OPENAI_API_KEY) {
@@ -20,8 +21,8 @@ try {
   console.log(`Successfully initialized clients. DB Endpoint: ${process.env.ASTRA_DB_API_ENDPOINT}`);
 
   // Get collection reference immediately after successful client init
-  productsCollection = db.collection('products');
-  console.log('Got reference to Astra DB \'products\' collection.');
+  productsCollection = db.collection(COLLECTION_NAME);
+  console.log(`Got reference to Astra DB '${COLLECTION_NAME}' collection.`);
 
 } catch (e) {
   initializationError = e; // Store the error
@@ -177,3 +178,143 @@ async function initializeDb() {
 
 initializeDb();
 */ 
+
+// --- Necessary variables for direct API calls ---
+// Extract Base URL and Token from environment/client setup
+const ASTRA_DB_TOKEN = process.env.ASTRA_DB_APPLICATION_TOKEN;
+// Construct Base URL carefully - assumes standard Astra format
+const ASTRA_API_ENDPOINT_URL = process.env.ASTRA_DB_API_ENDPOINT; // This is the DB endpoint, not the API base
+// Helper to extract info (adjust if your endpoint format differs)
+function getAstraApiBasePath(dbApiEndpoint) {
+    if (!dbApiEndpoint) return null;
+    try {
+        // Example: https://db-id-region.apps.astra.datastax.com
+        const url = new URL(dbApiEndpoint); // Use URL parser for robustness
+        const hostParts = url.hostname.split('.'); // [db-id-region, apps, astra, datastax, com]
+        const dbIdRegion = hostParts[0]; // db-id-region
+        // Assumes namespace is derived or default - replace httpClient?.keyspace if needed
+        const namespace = db?.httpClient?.keyspace || process.env.ASTRA_DB_NAMESPACE || 'default_keyspace'; 
+        if (!dbIdRegion || !namespace) return null;
+        return `https://${dbIdRegion}.apps.astra.datastax.com/api/json/v1/${namespace}`;
+    } catch (e) {
+        console.error("Error parsing ASTRA_DB_API_ENDPOINT:", e);
+        return null;
+    }
+}
+const API_BASE_URL = getAstraApiBasePath(ASTRA_API_ENDPOINT_URL);
+
+if (!API_BASE_URL && !initializationError) {
+    const errMsg = "Could not construct API Base URL from ASTRA_DB_API_ENDPOINT.";
+    console.error("FATAL:", errMsg);
+    initializationError = new Error(errMsg);
+} else if (!initializationError) {
+    console.log("Constructed API Base URL for hybrid search:", API_BASE_URL);
+}
+// --- End API variables ---
+
+// --- Search Endpoint --- Updated for Hybrid Search ---
+app.post('/search', async (req, res) => {
+  if (initializationError) {
+    return res.status(503).json({ message: `Server initialization failed: ${initializationError.message}` });
+  }
+  // Check needed components depending on search type
+  if (!productsCollection && !API_BASE_URL) {
+    return res.status(503).json({ message: 'Database connection/configuration not available.' });
+  }
+
+  try {
+    // Destructure query specifically
+    const { query, category, minPrice, maxPrice, limit = 10, page = 1 } = req.body;
+    const parsedLimit = parseInt(limit, 10);
+    const parsedPage = parseInt(page, 10);
+    const skip = (parsedPage - 1) * parsedLimit;
+    const fetchLimit = parsedLimit + 1; // Fetch one extra for hasNextPage check
+
+    console.log('Received search request:', { query, category, minPrice, maxPrice, limit: parsedLimit, page: parsedPage });
+
+    // Construct metadata filter
+    const filter = {};
+    if (category) filter.category = category;
+    if (minPrice !== undefined || maxPrice !== undefined) {
+      filter.price = {};
+      if (minPrice !== undefined) filter.price.$gte = parseFloat(minPrice);
+      if (maxPrice !== undefined) filter.price.$lte = parseFloat(maxPrice);
+    }
+
+    let results = [];
+    let hasNextPage = false;
+
+    if (query) {
+        // --- HYBRID Search via Data API ---
+        if (!API_BASE_URL || !ASTRA_DB_TOKEN) {
+             throw new Error("API configuration missing for hybrid search.");
+        }
+        console.log(`Performing HYBRID search for: "${query}" with filter:`, filter, `Page: ${parsedPage}, Limit: ${parsedLimit}`);
+        const apiUrl = `${API_BASE_URL}/collections/${COLLECTION_NAME}/find`;
+        const requestBody = {
+            hybrid: query, // Use the raw query string
+            filter: filter,
+            options: {
+                limit: fetchLimit, // Fetch limit+1
+                skip: skip 
+                // projection: { '$vector': 0 } // Add if needed
+            }
+        };
+
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'x-cassandra-token': ASTRA_DB_TOKEN
+            },
+            body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.text();
+            console.error(`Hybrid search API error (${response.status}):`, errorBody);
+            throw new Error(`Hybrid search failed: ${response.status} ${response.statusText}`);
+        }
+
+        const responseData = await response.json();
+        if (responseData && responseData.data && responseData.data.documents) {
+             results = responseData.data.documents;
+        } else {
+            console.warn("Unexpected hybrid search response structure:", responseData);
+            results = [];
+        }
+
+    } else {
+        // --- Filter-Only / Initial Load Search via Client Library ---
+        if (!productsCollection) {
+            throw new Error("DB collection not available for filter search.");
+        }
+        console.log('Performing filter/initial search via client library:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}`);
+        const findOptions = {
+            limit: fetchLimit,
+            skip: skip,
+            projection: { '$vector': 0 },
+            sort: { _id: 1 } // Default sort for consistent skipping
+        };
+        const cursor = productsCollection.find(filter, findOptions);
+        results = await cursor.toArray();
+    }
+
+    // Determine if there is a next page (common logic)
+    hasNextPage = results.length > parsedLimit;
+    const pageResults = hasNextPage ? results.slice(0, parsedLimit) : results;
+
+    console.log(`Found ${results.length} raw results. Returning ${pageResults.length} for page ${parsedPage}. HasNextPage: ${hasNextPage}`);
+    res.json({
+        data: pageResults,
+        hasNextPage: hasNextPage,
+        currentPage: parsedPage
+    });
+
+  } catch (error) {
+      console.error('Search endpoint error:', error);
+      // Add more specific error logging if needed
+      // console.error(error.stack); 
+      res.status(500).json({ message: 'An error occurred during the search process.' });
+  }
+}); 
