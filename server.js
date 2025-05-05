@@ -1,238 +1,92 @@
 require('dotenv').config();
 const express = require('express');
-const { DataAPIClient } = require('@datastax/astra-db-ts');
+const { DataAPIClient, Db, Collection, DataAPIResponseError } = require('@datastax/astra-db-ts');
 const { OpenAI } = require('openai');
 const path = require('path');
 
-// Initialize Clients with Error Handling
-let client, db, openai, productsCollection;
+// --- Type Definition for Product Results ---
+/**
+ * @typedef {object} ProductDocument
+ * @property {string} _id - Typically the productId
+ * @property {string} productId
+ * @property {string} name
+ * @property {string} description
+ * @property {number} price
+ * @property {string} currency
+ * @property {string} category
+ * @property {string} imageUrl
+ */
+
+let client = null;
+let db = null;
+let openai = null;
+let productsCollection = null;
 let initializationError = null;
-const COLLECTION_NAME = 'products'; // Define collection name
+const COLLECTION_NAME = 'product';
 
 try {
   if (!process.env.ASTRA_DB_APPLICATION_TOKEN || !process.env.ASTRA_DB_API_ENDPOINT || !process.env.OPENAI_API_KEY) {
-    throw new Error("Missing required environment variables (ASTRA_DB_APPLICATION_TOKEN, ASTRA_DB_API_ENDPOINT, OPENAI_API_KEY)");
+    throw new Error("Missing required environment variables");
   }
 
   client = new DataAPIClient(process.env.ASTRA_DB_APPLICATION_TOKEN);
   db = client.db(process.env.ASTRA_DB_API_ENDPOINT);
-  openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY }); // Use OPENAI_API_KEY consistently
+  openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  console.log(`Successfully initialized clients. DB Endpoint: ${process.env.ASTRA_DB_API_ENDPOINT}`);
-
-  // Get collection reference immediately after successful client init
+  console.log(`Initialized clients. DB Endpoint: ${process.env.ASTRA_DB_API_ENDPOINT}`);
   productsCollection = db.collection(COLLECTION_NAME);
-  console.log(`Got reference to Astra DB '${COLLECTION_NAME}' collection.`);
+  console.log(`Connected to collection '${COLLECTION_NAME}'.`);
 
 } catch (e) {
-  initializationError = e; // Store the error
-  console.error('FATAL: Failed to initialize clients or get collection:', e);
-  // Don't exit immediately, let requests be handled (and return error)
+  initializationError = e;
+  console.error('Initialization failed:', e);
 }
 
 const app = express();
-const port = process.env.PORT || 3000;
-
-// Middleware to parse JSON bodies
+const port = process.env.PORT || 3002;
 app.use(express.json());
-
-// --- Serve Static Files from 'public' directory ---
-// Vercel handles this automatically for the root, but good practice
-// to keep it explicit for clarity or if root differs.
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Basic route - Now serves the index.html by default via express.static
-// app.get('/', (req, res) => {
-//   res.send('Hello Product Finder! Use POST /search to find products.');
-// });
-
-// Start the server only if run directly (e.g., locally with `node server.js`)
-// Vercel will import the `app` object instead of running this directly.
 if (require.main === module) {
   app.listen(port, () => {
-    console.log(`Server listening locally at http://localhost:${port}`);
+    console.log(`Server running at http://localhost:${port}`);
   });
 }
 
-// Export the app for Vercel's build process
 module.exports = app;
 
-// --- Helper Functions (Embedding) ---
-// Re-use or refactor embedding logic from loadData.js if needed
 async function getEmbedding(text) {
-  if (initializationError) { // Check if initialization failed
-     throw new Error("Server initialization failed, cannot generate embedding.");
-  }
-  if (!openai) { // Check if openai client is specifically missing
-      throw new Error("OpenAI client not initialized.");
-  }
+  if (initializationError) throw new Error("Server initialization failed");
+  if (!openai) throw new Error("OpenAI client not initialized");
   if (!text) return null;
+
   try {
     const response = await openai.embeddings.create({
       model: 'text-embedding-3-small',
-      input: text.trim(), // Ensure no leading/trailing whitespace
+      input: text.trim(),
     });
     return response.data[0].embedding;
   } catch (error) {
-    console.error(`Error getting embedding for search query: ${text.substring(0, 50)}...`, error);
-    // Handle error appropriately for API request (e.g., return 500)
+    console.error(`Embedding error for query: ${text}`, error);
     throw new Error('Failed to generate search embedding.'); 
   }
 }
 
-// --- Search Endpoint ---
 app.post('/search', async (req, res) => {
-  // Check for initialization error first
   if (initializationError) {
-    return res.status(503).json({ message: `Server initialization failed: ${initializationError.message}` });
+    return res.status(503).json({ message: `Initialization failed: ${initializationError.message}` });
   }
   if (!productsCollection) {
-    // This case might be redundant now if init fails earlier, but keep as safety
-    return res.status(503).json({ message: 'Database collection not available.' });
+    return res.status(503).json({ message: 'Collection not available.' });
   }
 
   try {
-    const { query, city, minPrice, maxPrice, category, limit = 10, page = 1 } = req.body; 
-    const parsedLimit = parseInt(limit, 10);
-    const parsedPage = parseInt(page, 10);
-    const skip = (parsedPage - 1) * parsedLimit;
-
-    console.log('Received search request:', { ...req.body, page: parsedPage, limit: parsedLimit });
-
-    const queryVector = await getEmbedding(query);
-
-    const filter = {};
-    if (category) filter.category = category;
-    if (minPrice !== undefined || maxPrice !== undefined) {
-      filter.price = {};
-      if (minPrice !== undefined) filter.price.$gte = parseFloat(minPrice);
-      if (maxPrice !== undefined) filter.price.$lte = parseFloat(maxPrice);
-    }
-
-    // Fetch one extra document to check for next page
-    const fetchLimit = parsedLimit + 1; 
-
-    // Define base options
-    let findOptions = {
-      limit: fetchLimit,
-      skip: skip,
-      projection: { '$vector': 0 },
-      // Initialize sort object
-      sort: {}
-    };
-
-    let cursor;
-    if (queryVector) {
-        // Vector Search - Add vector sort
-        findOptions.sort = { $vector: queryVector };
-        console.log('Performing vector search with filter:', filter, `Options:`, findOptions);
-        cursor = productsCollection.find(filter, findOptions);
-    } else {
-        // Filter-based or initial load search - Add default sort by _id
-        findOptions.sort = { _id: 1 }; // Default sort for consistent skipping
-        console.log('Performing filter/initial search:', filter, `Options:`, findOptions);
-        cursor = productsCollection.find(filter, findOptions);
-    }
-
-    // Execute the find operation
-    const results = await cursor.toArray();
-
-    const hasNextPage = results.length > parsedLimit;
-    const pageResults = hasNextPage ? results.slice(0, parsedLimit) : results;
-
-    console.log(`Found ${results.length} raw results. Returning ${pageResults.length} for page ${parsedPage}. HasNextPage: ${hasNextPage}`);
-    res.json({ 
-        data: pageResults, 
-        hasNextPage: hasNextPage, 
-        currentPage: parsedPage 
-    });
-
-  } catch (error) {
-      console.error('Search endpoint error:', error);
-      // Log the error more verbosely if possible
-      // e.g., console.error(error.stack);
-      if (error.message === 'Failed to generate search embedding.') {
-          res.status(500).json({ message: 'Error generating search embedding.' });
-      } else {
-           // Provide a slightly more specific default message if needed
-          res.status(500).json({ message: 'An error occurred during the search process.' });
-      }
-  }
-});
-
-// TODO: Add search endpoint (/search)
-
-// TODO: Define Collection and use it in search endpoint
-/* 
-let collection;
-async function initializeDb() {
-  try {
-    // Example: Access or create a collection 
-    // collection = await db.collection('products');
-    // console.log('Connected to Astra DB and collection is ready.');
-  } catch (e) {
-    console.error('Failed to initialize Astra DB connection:', e);
-    process.exit(1); // Exit if DB connection fails
-  }
-}
-
-initializeDb();
-*/ 
-
-// --- Necessary variables for direct API calls ---
-// Extract Base URL and Token from environment/client setup
-const ASTRA_DB_TOKEN = process.env.ASTRA_DB_APPLICATION_TOKEN;
-// Construct Base URL carefully - assumes standard Astra format
-const ASTRA_API_ENDPOINT_URL = process.env.ASTRA_DB_API_ENDPOINT; // This is the DB endpoint, not the API base
-// Helper to extract info (adjust if your endpoint format differs)
-function getAstraApiBasePath(dbApiEndpoint) {
-    if (!dbApiEndpoint) return null;
-    try {
-        // Example: https://db-id-region.apps.astra.datastax.com
-        const url = new URL(dbApiEndpoint); // Use URL parser for robustness
-        const hostParts = url.hostname.split('.'); // [db-id-region, apps, astra, datastax, com]
-        const dbIdRegion = hostParts[0]; // db-id-region
-        // Assumes namespace is derived or default - replace httpClient?.keyspace if needed
-        const namespace = db?.httpClient?.keyspace || process.env.ASTRA_DB_NAMESPACE || 'default_keyspace'; 
-        if (!dbIdRegion || !namespace) return null;
-        return `https://${dbIdRegion}.apps.astra.datastax.com/api/json/v1/${namespace}`;
-    } catch (e) {
-        console.error("Error parsing ASTRA_DB_API_ENDPOINT:", e);
-        return null;
-    }
-}
-const API_BASE_URL = getAstraApiBasePath(ASTRA_API_ENDPOINT_URL);
-
-if (!API_BASE_URL && !initializationError) {
-    const errMsg = "Could not construct API Base URL from ASTRA_DB_API_ENDPOINT.";
-    console.error("FATAL:", errMsg);
-    initializationError = new Error(errMsg);
-} else if (!initializationError) {
-    console.log("Constructed API Base URL for hybrid search:", API_BASE_URL);
-}
-// --- End API variables ---
-
-// --- Search Endpoint --- Updated for Hybrid Search ---
-app.post('/search', async (req, res) => {
-  if (initializationError) {
-    return res.status(503).json({ message: `Server initialization failed: ${initializationError.message}` });
-  }
-  // Check needed components depending on search type
-  if (!productsCollection && !API_BASE_URL) {
-    return res.status(503).json({ message: 'Database connection/configuration not available.' });
-  }
-
-  try {
-    // Destructure query specifically
     const { query, category, minPrice, maxPrice, limit = 10, page = 1 } = req.body;
     const parsedLimit = parseInt(limit, 10);
     const parsedPage = parseInt(page, 10);
     const skip = (parsedPage - 1) * parsedLimit;
-    const fetchLimit = parsedLimit + 1; // Fetch one extra for hasNextPage check
+    const fetchLimit = parsedLimit + 1;
 
-    console.log('Received search request:', { query, category, minPrice, maxPrice, limit: parsedLimit, page: parsedPage });
-
-    // Construct metadata filter
     const filter = {};
     if (category) filter.category = category;
     if (minPrice !== undefined || maxPrice !== undefined) {
@@ -241,80 +95,53 @@ app.post('/search', async (req, res) => {
       if (maxPrice !== undefined) filter.price.$lte = parseFloat(maxPrice);
     }
 
-    let results = [];
-    let hasNextPage = false;
+    const baseOptions = {
+      limit: fetchLimit,
+      skip: skip,
+      projection: { '$vector': 0 }
+    };
 
+    let cursor;
     if (query) {
-        // --- HYBRID Search via Data API ---
-        if (!API_BASE_URL || !ASTRA_DB_TOKEN) {
-             throw new Error("API configuration missing for hybrid search.");
+      console.log(`Performing HYBRID search for: "${query}"`);
+
+      const hybridFilter = { ...filter };
+      const hybridOptions = {
+        ...baseOptions,
+        sort: {
+          $hybrid: query
         }
-        console.log(`Performing HYBRID search for: "${query}" with filter:`, filter, `Page: ${parsedPage}, Limit: ${parsedLimit}`);
-        const apiUrl = `${API_BASE_URL}/collections/${COLLECTION_NAME}/find`;
-        const requestBody = {
-            hybrid: query, // Use the raw query string
-            filter: filter,
-            options: {
-                limit: fetchLimit, // Fetch limit+1
-                skip: skip 
-                // projection: { '$vector': 0 } // Add if needed
-            }
-        };
+      };
 
-        const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-cassandra-token': ASTRA_DB_TOKEN
-            },
-            body: JSON.stringify(requestBody)
-        });
-
-        if (!response.ok) {
-            const errorBody = await response.text();
-            console.error(`Hybrid search API error (${response.status}):`, errorBody);
-            throw new Error(`Hybrid search failed: ${response.status} ${response.statusText}`);
-        }
-
-        const responseData = await response.json();
-        if (responseData && responseData.data && responseData.data.documents) {
-             results = responseData.data.documents;
-        } else {
-            console.warn("Unexpected hybrid search response structure:", responseData);
-            results = [];
-        }
-
+      console.log("Hybrid filter:", JSON.stringify(hybridFilter));
+      console.log("Hybrid options:", JSON.stringify(hybridOptions));
+      cursor = productsCollection.findAndRerank(hybridFilter, hybridOptions);
     } else {
-        // --- Filter-Only / Initial Load Search via Client Library ---
-        if (!productsCollection) {
-            throw new Error("DB collection not available for filter search.");
-        }
-        console.log('Performing filter/initial search via client library:', filter, `Page: ${parsedPage}, Limit: ${parsedLimit}`);
-        const findOptions = {
-            limit: fetchLimit,
-            skip: skip,
-            projection: { '$vector': 0 },
-            sort: { _id: 1 } // Default sort for consistent skipping
-        };
-        const cursor = productsCollection.find(filter, findOptions);
-        results = await cursor.toArray();
+      console.log('Performing standard search.');
+      const standardOptions = {
+        ...baseOptions,
+        sort: { _id: 1 }
+      };
+      cursor = productsCollection.find({}, standardOptions);
     }
 
-    // Determine if there is a next page (common logic)
-    hasNextPage = results.length > parsedLimit;
+    const results = await cursor.toArray();
+    const hasNextPage = results.length > parsedLimit;
     const pageResults = hasNextPage ? results.slice(0, parsedLimit) : results;
 
-    console.log(`Found ${results.length} raw results. Returning ${pageResults.length} for page ${parsedPage}. HasNextPage: ${hasNextPage}`);
     res.json({
-        data: pageResults,
-        hasNextPage: hasNextPage,
-        currentPage: parsedPage
+      products: pageResults,
+      hasNextPage,
+      currentPage: parsedPage,
+      totalPages: 1 // Placeholder, update if you have total count logic
     });
 
   } catch (error) {
-      console.error('Search endpoint error:', error);
-      // Add more specific error logging if needed
-      // console.error(error.stack); 
-      res.status(500).json({ message: 'An error occurred during the search process.' });
+    console.error('Search error:', error);
+    if (error instanceof DataAPIResponseError) {
+      res.status(500).json({ message: `DB error: ${error.message}` });
+    } else {
+      res.status(500).json({ message: 'Search failed.' });
+    }
   }
-}); 
+});

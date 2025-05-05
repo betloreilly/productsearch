@@ -72,7 +72,7 @@ async function fetchAndDisplayPage(page, searchPayload = {}, isInitialLoad = fal
         }
 
         const responseData = await response.json(); 
-        displayResults(responseData.data); // Display only the data array
+        displayResults(responseData.products); // Correctly access the products array
         
         // Update current page state ONLY after successful fetch
         currentPage = responseData.currentPage; 
@@ -121,28 +121,34 @@ function displayResults(results) {
         return;
     }
 
-    results.forEach(product => {
+    results.forEach(item => {
+        // Handle both structures: find returns product directly,
+        // findAndRerank nests it under 'document'
+        const product = item.document || item;
+
         const productDiv = document.createElement('div');
         productDiv.classList.add('product-item');
 
         let content = '';
         if (product.imageUrl) {
-            // Remove 'public/' prefix if it exists for the image src attribute
             const imageSrc = product.imageUrl.startsWith('public/')
-                             ? product.imageUrl.substring(7) // Remove 'public/' (7 chars)
+                             ? product.imageUrl.substring(7)
                              : product.imageUrl;
             content += `<img src="${imageSrc}" alt="${product.name}" onerror="this.style.display='none'">`;
         }
-        content += `<h3>${product.name}</h3>`;
+        content += `<h3>${product.name || 'Product Name Missing'}</h3>`; // Add fallback
         if (product.description) {
-            // Truncate long descriptions for display
             const shortDesc = product.description.length > 150 
                               ? product.description.substring(0, 147) + '...' 
                               : product.description;
             content += `<p>${shortDesc}</p>`;
+        } else {
+            content += '<p>No description available.</p>'; // Add fallback
         }
         if (product.price !== undefined && product.price !== null) {
             content += `<p class="price">${product.currency || '$'}${product.price.toFixed(2)}</p>`;
+        } else {
+             content += '<p class="price">Price not available</p>'; // Add fallback
         }
         if (product.category) {
             content += `<span class="category">Category: ${product.category}</span>`;
