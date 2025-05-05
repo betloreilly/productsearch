@@ -1,7 +1,6 @@
 const searchButton = document.getElementById('searchButton');
 const searchQueryInput = document.getElementById('searchQuery');
 // const cityFilterInput = document.getElementById('cityFilter'); // Removed
-const categoryFilterInput = document.getElementById('categoryFilter');
 const minPriceFilterInput = document.getElementById('minPriceFilter');
 const maxPriceFilterInput = document.getElementById('maxPriceFilter');
 const limitFilterInput = document.getElementById('limitFilter');
@@ -89,7 +88,6 @@ async function fetchAndDisplayPage(page, searchPayload = {}, isInitialLoad = fal
 function performSearchAndDisplay() {
     const query = searchQueryInput.value.trim();
     // const city = cityFilterInput.value.trim(); // Removed
-    const category = categoryFilterInput.value.trim();
     const minPrice = minPriceFilterInput.value;
     const maxPrice = maxPriceFilterInput.value;
     // Limit is handled within fetchAndDisplayPage
@@ -98,7 +96,6 @@ function performSearchAndDisplay() {
     currentSearchPayload = {};
     if (query) currentSearchPayload.query = query;
     // if (city) currentSearchPayload.city = city; // Removed
-    if (category) currentSearchPayload.category = category;
     if (minPrice !== '') currentSearchPayload.minPrice = parseFloat(minPrice);
     if (maxPrice !== '') currentSearchPayload.maxPrice = parseFloat(maxPrice);
 

@@ -2,166 +2,451 @@
   {
     "productId": "electronics-001",
     "name": "AuraMax Noise-Cancelling Headphones",
-    "description": "Immerse yourself in sound with AuraMax. Sleek, matte black over-ear headphones featuring 30+ hour battery life and plush earcups. Perfect for uninterrupted travel or focused work sessions.",
+    "description": "Discover the AuraMax Noise-Cancelling Headphones, a top choice in Electronics. Immerse yourself in sound with AuraMax. Sleek, matte black over-ear headphones featuring 30+ hour battery life and plush earcups. Perfect for uninterrupted travel or focused work sessions. Priced at $179.99, it offers excellent value. Experience superior audio clarity and focus.",
     "price": 179.99,
     "currency": "USD",
     "category": "Electronics",
     "city": "Seattle",
-    "imageUrl": "public/images/electronics/electronics-001.jpg",
-    "$vector": null
+    "imageUrl": "public/images/electronics/electronics-001.jpg"
   },
   {
     "productId": "clothing-001",
     "name": "Evergreen Peak Organic Cotton Tee",
-    "description": "Soft, breathable unisex t-shirt in a gentle cream hue. Made from eco-friendly organic cotton featuring a minimalist mountain range graphic. Comfort meets conscious style.",
+    "description": "Discover the Evergreen Peak Organic Cotton Tee, a top choice in Clothing. Soft, breathable unisex t-shirt in a gentle cream hue. Made from eco-friendly organic cotton featuring a minimalist mountain range graphic. Comfort meets conscious style. Priced at $34.95, it offers excellent value. Crafted with sustainable materials for ultimate comfort.",
     "price": 34.95,
     "currency": "USD",
     "category": "Clothing",
     "city": "Portland",
-    "imageUrl": "public/images/clothing/clothing-001.jpg",
-    "$vector": null
+    "imageUrl": "public/images/clothing/clothing-001.jpg"
   },
   {
     "productId": "electronics-002",
     "name": "TempoFit Smartwatch Tracker",
-    "description": "Stay on top of your goals with TempoFit. Tracks heart rate, steps, and sleep with GPS on a clear round display. Water-resistant with an interchangeable charcoal grey silicone strap.",
-    "price": 129.50,
+    "description": "Discover the TempoFit Smartwatch Tracker, a top choice in Electronics / Wearables. Stay on top of your goals with TempoFit. Tracks heart rate, steps, and sleep with GPS on a clear round display. Water-resistant with an interchangeable charcoal grey silicone strap. Priced at $129.50, it offers excellent value. Track your fitness goals effortlessly.",
+    "price": 129.5,
     "currency": "USD",
     "category": "Electronics / Wearables",
     "city": "San Francisco",
-    "imageUrl": "public/images/electronics/electronics-002.jpg",
-    "$vector": null
+    "imageUrl": "public/images/electronics/electronics-002.jpg"
   },
   {
     "productId": "homegoods-001",
     "name": "Artisan Brew Stainless Steel French Press",
-    "description": "Brew rich, flavorful coffee with this classic 8-cup French Press. Durable, double-walled stainless steel construction keeps coffee hot longer. Easy to use and clean.",
-    "price": 45.00,
+    "description": "Discover the Artisan Brew Stainless Steel French Press, a top choice in Home Goods / Kitchen. Brew rich, flavorful coffee with this classic 8-cup French Press. Durable, double-walled stainless steel construction keeps coffee hot longer. Easy to use and clean. Priced at $45.00, it offers excellent value.",
+    "price": 45.0,
     "currency": "USD",
     "category": "Home Goods / Kitchen",
     "city": "Seattle",
-    "imageUrl": "public/images/homegoods/homegoods-001.jpg",
-    "$vector": null
+    "imageUrl": "public/images/homegoods/homegoods-001.jpg"
   },
   {
     "productId": "accessories-001",
     "name": "Nomad Trail Lightweight Waterproof Backpack",
-    "description": "Your perfect companion for adventure or commute. Royal blue, 25L backpack made from tear-resistant nylon. Features multiple compartments, laptop sleeve, and padded straps.",
+    "description": "Discover the Nomad Trail Lightweight Waterproof Backpack, a top choice in Accessories / Bags. Your perfect companion for adventure or commute. Royal blue, 25L backpack made from tear-resistant nylon. Features multiple compartments, laptop sleeve, and padded straps. Priced at $69.99, it offers excellent value.",
     "price": 69.99,
     "currency": "USD",
     "category": "Accessories / Bags",
     "city": "Denver",
-    "imageUrl": "public/images/accessories/accessories-001.jpg",
-    "$vector": null
+    "imageUrl": "public/images/accessories/accessories-001.jpg"
   },
   {
     "productId": "clothing-002",
     "name": "Zenith High-Waisted Yoga Leggings",
-    "description": "Flow freely in Zenith leggings. Deep teal, four-way stretch fabric moves with you. Moisture-wicking with a convenient hidden waistband pocket. Ideal for studio or street.",
+    "description": "Discover the Zenith High-Waisted Yoga Leggings, a top choice in Clothing / Activewear. Flow freely in Zenith leggings. Deep teal, four-way stretch fabric moves with you. Moisture-wicking with a convenient hidden waistband pocket. Ideal for studio or street. Priced at $59.95, it offers excellent value.",
     "price": 59.95,
     "currency": "USD",
     "category": "Clothing / Activewear",
     "city": "Los Angeles",
-    "imageUrl": "public/images/clothing/clothing-002.jpg",
-    "$vector": null
+    "imageUrl": "public/images/clothing/clothing-002.jpg"
   },
   {
     "productId": "electronics-003",
     "name": "GrooveRover Portable Bluetooth Speaker",
-    "description": "Take your tunes anywhere! Rugged, forest green portable speaker with IPX7 waterproof rating. Delivers rich bass and 12 hours of playtime. Includes carabiner clip.",
+    "description": "Discover the GrooveRover Portable Bluetooth Speaker, a top choice in Electronics / Audio. Take your tunes anywhere! Rugged, forest green portable speaker with IPX7 waterproof rating. Delivers rich bass and 12 hours of playtime. Includes carabiner clip. Priced at $49.99, it offers excellent value.",
     "price": 49.99,
     "currency": "USD",
     "category": "Electronics / Audio",
     "city": "Austin",
-    "imageUrl": "public/images/electronics/electronics-003.jpg",
-    "$vector": null
+    "imageUrl": "public/images/electronics/electronics-003.jpg"
   },
   {
     "productId": "homegoods-002",
     "name": "Hearthstone Ceramic Mug with Bamboo Lid",
-    "description": "Enjoy your favorite beverage in this modern 14oz ceramic mug. Features a unique speckled white glaze and includes a bamboo lid to keep drinks warm. Comfortable handle.",
-    "price": 18.50,
+    "description": "Discover the Hearthstone Ceramic Mug with Bamboo Lid, a top choice in Home Goods / Kitchenware. Enjoy your favorite beverage in this modern 14oz ceramic mug. Features a unique speckled white glaze and includes a bamboo lid to keep drinks warm. Comfortable handle. Priced at $18.50, it offers excellent value.",
+    "price": 18.5,
     "currency": "USD",
     "category": "Home Goods / Kitchenware",
     "city": "Chicago",
-    "imageUrl": "public/images/homegoods/homegoods-002.jpg",
-    "$vector": null
+    "imageUrl": "public/images/homegoods/homegoods-002.jpg"
   },
   {
     "productId": "clothing-003",
     "name": "Seabreeze Men's Casual Linen Shirt",
-    "description": "Stay cool and stylish in this light sky blue linen shirt. Breathable fabric, relaxed fit, button-down front, and roll-up long sleeves make it perfect for warm weather.",
-    "price": 65.00,
+    "description": "Discover the Seabreeze Men's Casual Linen Shirt, a top choice in Clothing. Stay cool and stylish in this light sky blue linen shirt. Breathable fabric, relaxed fit, button-down front, and roll-up long sleeves make it perfect for warm weather. Priced at $65.00, it offers excellent value.",
+    "price": 65.0,
     "currency": "USD",
     "category": "Clothing",
     "city": "Miami",
-    "imageUrl": "public/images/clothing/clothing-003.jpg",
-    "$vector": null
+    "imageUrl": "public/images/clothing/clothing-003.jpg"
   },
   {
     "productId": "electronics-004",
     "name": "ErgoLift Adjustable Laptop Stand",
-    "description": "Improve your workspace ergonomics. Sleek silver aluminum alloy stand adjusts height for better posture. Foldable and portable, fits laptops 10-17 inches.",
+    "description": "Discover the ErgoLift Adjustable Laptop Stand, a top choice in Electronics / Accessories. Improve your workspace ergonomics. Sleek silver aluminum alloy stand adjusts height for better posture. Foldable and portable, fits laptops 10-17 inches. Priced at $39.99, it offers excellent value.",
     "price": 39.99,
     "currency": "USD",
     "category": "Electronics / Accessories",
     "city": "New York",
-    "imageUrl": "public/images/electronics/electronics-004.jpg",
-    "$vector": null
+    "imageUrl": "public/images/electronics/electronics-004.jpg"
   },
   {
     "productId": "homegoods-003",
     "name": "Luxe Velvet Throw Pillow Cover (Emerald Green)",
-    "description": "Add a touch of luxury with this soft, rich emerald green velvet pillow cover. 18x18 inch square with hidden zipper. (Insert not included).",
+    "description": "Discover the Luxe Velvet Throw Pillow Cover (Emerald Green), a top choice in Home Goods / Decor. Add a touch of luxury with this soft, rich emerald green velvet pillow cover. 18x18 inch square with hidden zipper. (Insert not included). Priced at $22.95, it offers excellent value.",
     "price": 22.95,
     "currency": "USD",
     "category": "Home Goods / Decor",
     "city": "New York",
-    "imageUrl": "public/images/homegoods/homegoods-003.jpg",
-    "$vector": null
+    "imageUrl": "public/images/homegoods/homegoods-003.jpg"
   },
   {
     "productId": "accessories-002",
     "name": "Skyline Polarized Aviator Sunglasses",
-    "description": "Classic unisex aviator sunglasses with a thin gold metal frame. Dark grey polarized lenses provide essential UV protection and reduce glare. Timeless style.",
-    "price": 75.00,
+    "description": "Discover the Skyline Polarized Aviator Sunglasses, a top choice in Accessories / Eyewear. Classic unisex aviator sunglasses with a thin gold metal frame. Dark grey polarized lenses provide essential UV protection and reduce glare. Timeless style. Priced at $75.00, it offers excellent value.",
+    "price": 75.0,
     "currency": "USD",
     "category": "Accessories / Eyewear",
     "city": "Los Angeles",
-    "imageUrl": "public/images/accessories/accessories-002.jpg",
-    "$vector": null
+    "imageUrl": "public/images/accessories/accessories-002.jpg"
   },
   {
     "productId": "clothing-004",
     "name": "Rebel Chic Women's Faux Leather Moto Jacket",
-    "description": "Unleash your inner rebel with this classic black moto jacket. Crafted from quality faux leather with an asymmetrical zip, zippered pockets, and a flattering fitted silhouette.",
+    "description": "Discover the Rebel Chic Women's Faux Leather Moto Jacket, a top choice in Clothing. Unleash your inner rebel with this classic black moto jacket. Crafted from quality faux leather with an asymmetrical zip, zippered pockets, and a flattering fitted silhouette. Priced at $89.99, it offers excellent value.",
     "price": 89.99,
     "currency": "USD",
     "category": "Clothing",
     "city": "Chicago",
-    "imageUrl": "public/images/clothing/clothing-004.jpg",
-    "$vector": null
+    "imageUrl": "public/images/clothing/clothing-004.jpg"
   },
   {
     "productId": "homegoods-004",
     "name": "PrecisionPour Electric Gooseneck Kettle",
-    "description": "Perfect your pour-over coffee or tea. This 1L electric kettle features precise temperature control and a gooseneck spout. Elegant matte black stainless steel design.",
+    "description": "Discover the PrecisionPour Electric Gooseneck Kettle, a top choice in Home Goods / Kitchen Appliances. Perfect your pour-over coffee or tea. This 1L electric kettle features precise temperature control and a gooseneck spout. Elegant matte black stainless steel design. Priced at $64.95, it offers excellent value.",
     "price": 64.95,
     "currency": "USD",
     "category": "Home Goods / Kitchen Appliances",
     "city": "Portland",
-    "imageUrl": "public/images/homegoods/homegoods-004.jpg",
-    "$vector": null
+    "imageUrl": "public/images/homegoods/homegoods-004.jpg"
   },
   {
     "productId": "accessories-003",
     "name": "Nomad Slim Leather Card Holder Wallet",
-    "description": "Carry your essentials in style. Minimalist tan wallet crafted from full-grain leather. Holds 4-6 cards and folded bills, featuring RFID blocking technology.",
-    "price": 42.50,
+    "description": "Discover the Nomad Slim Leather Card Holder Wallet, a top choice in Accessories / Wallets. Carry your essentials in style. Minimalist tan wallet crafted from full-grain leather. Holds 4-6 cards and folded bills, featuring RFID blocking technology. Priced at $42.50, it offers excellent value.",
+    "price": 42.5,
     "currency": "USD",
     "category": "Accessories / Wallets",
     "city": "Austin",
-    "imageUrl": "public/images/accessories/accessories-003.jpg",
-    "$vector": null
+    "imageUrl": "public/images/accessories/accessories-003.jpg"
+  },
+  {
+    "productId": "electronics-101",
+    "name": "ComfortGrip Ergonomic Vertical Mouse",
+    "description": "Discover the ComfortGrip Ergonomic Vertical Mouse, a top choice in Electronics / Accessories. Reduce wrist strain with the ComfortGrip vertical mouse. Features 6 buttons, adjustable DPI, and a smooth matte grey finish. Rechargeable via USB-C for convenience. Priced at $34.99, it offers excellent value.",
+    "price": 34.99,
+    "currency": "USD",
+    "category": "Electronics / Accessories",
+    "city": "San Jose",
+    "imageUrl": "public/images/electronics/electronics-101.jpg"
+  },
+  {
+    "productId": "clothing-101",
+    "name": "SummitFlex Merino Wool Base Layer",
+    "description": "Discover the SummitFlex Merino Wool Base Layer, a top choice in Clothing / Activewear. Stay comfortable in any condition. This lightweight, charcoal grey merino wool top regulates temperature and resists odor. Perfect for hiking, skiing, or everyday wear. Priced at $79.95, it offers excellent value.",
+    "price": 79.95,
+    "currency": "USD",
+    "category": "Clothing / Activewear",
+    "city": "Denver",
+    "imageUrl": "public/images/clothing/clothing-101.jpg"
+  },
+  {
+    "productId": "homegoods-101",
+    "name": "PureZone Smart WiFi Air Purifier",
+    "description": "Discover the PureZone Smart WiFi Air Purifier, a top choice in Home Goods / Appliances. Breathe cleaner air with PureZone. This sleek white purifier features a HEPA H13 filter, app control, air quality sensor, and quiet operation for rooms up to 300 sq ft. Priced at $149.00, it offers excellent value.",
+    "price": 149.0,
+    "currency": "USD",
+    "category": "Home Goods / Appliances",
+    "city": "Seattle",
+    "imageUrl": "public/images/homegoods/homegoods-101.jpg"
+  },
+  {
+    "productId": "accessories-101",
+    "name": "UrbanNomad Leather Messenger Bag",
+    "description": "Discover the UrbanNomad Leather Messenger Bag, a top choice in Accessories / Bags. Carry your essentials in style. Crafted from distressed brown genuine leather, this bag fits a 15-inch laptop, features multiple pockets, and brass hardware. Priced at $119.50, it offers excellent value.",
+    "price": 119.5,
+    "currency": "USD",
+    "category": "Accessories / Bags",
+    "city": "New York",
+    "imageUrl": "public/images/accessories/accessories-101.jpg"
+  },
+  {
+    "productId": "homegoods-102",
+    "name": "Serenity Bamboo Bath Caddy Tray",
+    "description": "Discover the Serenity Bamboo Bath Caddy Tray, a top choice in Home Goods / Bath. Turn your bath into a spa experience. This extendable bamboo caddy holds your book, tablet, wine glass, and soap. Water-resistant natural finish. Priced at $39.99, it offers excellent value.",
+    "price": 39.99,
+    "currency": "USD",
+    "category": "Home Goods / Bath",
+    "city": "Los Angeles",
+    "imageUrl": "public/images/homegoods/homegoods-102.jpg"
+  },
+  {
+    "productId": "electronics-102",
+    "name": "ChargeMax Slim Power Bank (20000mAh)",
+    "description": "Discover the ChargeMax Slim Power Bank (20000mAh), a top choice in Electronics / Accessories. Never run out of power on the go. High-capacity 20000mAh slim power bank in matte black with USB-A & USB-C PD ports and digital display. Priced at $44.95, it offers excellent value.",
+    "price": 44.95,
+    "currency": "USD",
+    "category": "Electronics / Accessories",
+    "city": "Austin",
+    "imageUrl": "public/images/electronics/electronics-102.jpg"
+  },
+  {
+    "productId": "clothing-102",
+    "name": "MetroStyle Women's Waterproof Trench Coat",
+    "description": "Discover the MetroStyle Women's Waterproof Trench Coat, a top choice in Clothing. Stay chic and dry with this classic khaki trench coat. Features a double-breasted design, belted waist, and lightweight waterproof material. Priced at $99.00, it offers excellent value.",
+    "price": 99.0,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "Chicago",
+    "imageUrl": "public/images/clothing/clothing-102.jpg"
+  },
+  {
+    "productId": "homegoods-103",
+    "name": "Heritage Cast Iron Skillet (12-Inch)",
+    "description": "Discover the Heritage Cast Iron Skillet (12-Inch), a top choice in Home Goods / Kitchenware. A kitchen essential for generations. Pre-seasoned 12-inch cast iron skillet offers superior heat retention for stovetop, oven, or campfire cooking. Priced at $29.97, it offers excellent value.",
+    "price": 29.97,
+    "currency": "USD",
+    "category": "Home Goods / Kitchenware",
+    "city": "Nashville",
+    "imageUrl": "public/images/homegoods/homegoods-103.jpg"
+  },
+  {
+    "productId": "accessories-102",
+    "name": "CloudComfort Memory Foam Travel Pillow",
+    "description": "Discover the CloudComfort Memory Foam Travel Pillow, a top choice in Accessories / Travel. Travel in comfort with this ergonomic U-shaped memory foam neck pillow. Soft, washable grey velour cover and convenient travel bag included. Priced at $24.50, it offers excellent value.",
+    "price": 24.5,
+    "currency": "USD",
+    "category": "Accessories / Travel",
+    "city": "Atlanta",
+    "imageUrl": "public/images/accessories/accessories-102.jpg"
+  },
+  {
+    "productId": "electronics-103",
+    "name": "GlowSync Smart LED Strip Lights (5m)",
+    "description": "Discover the GlowSync Smart LED Strip Lights (5m), a top choice in Electronics / Home Goods. Set the mood instantly. 5 meters of WiFi-enabled RGB LED strip lights with app control, voice commands, and music sync feature. Easy adhesive installation. Priced at $28.99, it offers excellent value.",
+    "price": 28.99,
+    "currency": "USD",
+    "category": "Electronics / Home Goods",
+    "city": "Las Vegas",
+    "imageUrl": "public/images/electronics/electronics-103.jpg"
+  },
+  {
+    "productId": "clothing-103",
+    "name": "Lumberjack Essential Flannel Shirt",
+    "description": "Discover the Lumberjack Essential Flannel Shirt, a top choice in Clothing. Classic comfort. Soft brushed cotton flannel shirt in a bold red and black buffalo check pattern with a relaxed fit and chest pocket. Priced at $42.00, it offers excellent value.",
+    "price": 42.0,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "Portland",
+    "imageUrl": "public/images/clothing/clothing-103.jpg"
+  },
+  {
+    "productId": "homegoods-104",
+    "name": "AzureMist Stoneware Dinner Plates (Set of 4)",
+    "description": "Discover the AzureMist Stoneware Dinner Plates (Set of 4), a top choice in Home Goods / Kitchenware. Elevate your table setting. Set of four 10.5-inch durable stoneware plates featuring a unique blue/grey reactive glaze. Microwave and dishwasher safe. Priced at $55.00, it offers excellent value.",
+    "price": 55.0,
+    "currency": "USD",
+    "category": "Home Goods / Kitchenware",
+    "city": "San Diego",
+    "imageUrl": "public/images/homegoods/homegoods-104.jpg"
+  },
+  {
+    "productId": "electronics-104",
+    "name": "SnapEasy Compact Digital Camera",
+    "description": "Discover the SnapEasy Compact Digital Camera, a top choice in Electronics. Capture memories effortlessly. This easy-to-use 20MP silver digital camera features 8x optical zoom, HD video recording, and a built-in flash. Priced at $119.99, it offers excellent value.",
+    "price": 119.99,
+    "currency": "USD",
+    "category": "Electronics",
+    "city": "Orlando",
+    "imageUrl": "public/images/electronics/electronics-104.jpg"
+  },
+  {
+    "productId": "accessories-103",
+    "name": "Evergreen Wool Knit Beanie",
+    "description": "Discover the Evergreen Wool Knit Beanie, a top choice in Accessories / Headwear. Stay warm with this forest green unisex beanie. Made from a soft merino wool blend with a classic ribbed knit and cuff design. Priced at $29.95, it offers excellent value.",
+    "price": 29.95,
+    "currency": "USD",
+    "category": "Accessories / Headwear",
+    "city": "Denver",
+    "imageUrl": "public/images/accessories/accessories-103.jpg"
+  },
+  {
+    "productId": "homegoods-105",
+    "name": "BlendMaster Pro Immersion Blender Set",
+    "description": "Discover the BlendMaster Pro Immersion Blender Set, a top choice in Home Goods / Kitchen Appliances. Versatile kitchen helper. This black handheld immersion blender set includes whisk and chopper attachments, beaker, and variable speed control. Priced at $49.99, it offers excellent value.",
+    "price": 49.99,
+    "currency": "USD",
+    "category": "Home Goods / Kitchen Appliances",
+    "city": "Boston",
+    "imageUrl": "public/images/homegoods/homegoods-105.jpg"
+  },
+  {
+    "productId": "electronics-105",
+    "name": "AeroBuds True Wireless Earbuds",
+    "description": "Discover the AeroBuds True Wireless Earbuds, a top choice in Electronics / Audio. Experience true wireless freedom. White AeroBuds feature Bluetooth 5.2, touch controls, IPX5 water resistance, and over 20 hours playtime with the compact case. Priced at $39.99, it offers excellent value.",
+    "price": 39.99,
+    "currency": "USD",
+    "category": "Electronics / Audio",
+    "city": "San Francisco",
+    "imageUrl": "public/images/electronics/electronics-105.jpg"
+  },
+  {
+    "productId": "clothing-104",
+    "name": "Velocity Men's Running Shorts with Liner",
+    "description": "Discover the Velocity Men's Running Shorts with Liner, a top choice in Clothing / Activewear. Run further, faster. Lightweight navy blue shorts with quick-dry fabric, supportive liner, zippered pocket, and reflective details for visibility. Priced at $36.50, it offers excellent value.",
+    "price": 36.5,
+    "currency": "USD",
+    "category": "Clothing / Activewear",
+    "city": "Boulder",
+    "imageUrl": "public/images/clothing/clothing-104.jpg"
+  },
+  {
+    "productId": "homegoods-106",
+    "name": "StoreFresh Glass Food Containers (Set of 5)",
+    "description": "Discover the StoreFresh Glass Food Containers (Set of 5), a top choice in Home Goods / Kitchen Storage. Durable and versatile food storage. Set of 5 borosilicate glass containers in various sizes with airtight locking lids. Oven, microwave, and dishwasher safe. Priced at $32.99, it offers excellent value.",
+    "price": 32.99,
+    "currency": "USD",
+    "category": "Home Goods / Kitchen Storage",
+    "city": "Phoenix",
+    "imageUrl": "public/images/homegoods/homegoods-106.jpg"
+  },
+  {
+    "productId": "accessories-104",
+    "name": "ScreenGuard Blue Light Blocking Glasses",
+    "description": "Discover the ScreenGuard Blue Light Blocking Glasses, a top choice in Accessories / Eyewear. Protect your eyes during screen time. Classic rectangular non-prescription glasses with clear blue light blocking lenses and a lightweight black frame. Priced at $19.95, it offers excellent value.",
+    "price": 19.95,
+    "currency": "USD",
+    "category": "Accessories / Eyewear",
+    "city": "Seattle",
+    "imageUrl": "public/images/accessories/accessories-104.jpg"
+  },
+  {
+    "productId": "electronics-106",
+    "name": "BodyComp Smart Body Weight Scale",
+    "description": "Discover the BodyComp Smart Body Weight Scale, a top choice in Electronics / Health. Track your health metrics intelligently. This white smart scale measures weight, BMI, body fat, and more, syncing data via Bluetooth to your phone. Priced at $59.99, it offers excellent value.",
+    "price": 59.99,
+    "currency": "USD",
+    "category": "Electronics / Health",
+    "city": "San Diego",
+    "imageUrl": "public/images/electronics/electronics-106.jpg"
+  },
+  {
+    "productId": "clothing-105",
+    "name": "CloudSoft Women's Cashmere Crew Neck Sweater",
+    "description": "Discover the CloudSoft Women's Cashmere Crew Neck Sweater, a top choice in Clothing. Indulge in luxury. This light grey heather sweater is crafted from 100% pure cashmere for unparalleled softness. Features a classic fit with ribbed trim. Priced at $129.00, it offers excellent value.",
+    "price": 129.0,
+    "currency": "USD",
+    "category": "Clothing",
+    "city": "New York",
+    "imageUrl": "public/images/clothing/clothing-105.jpg"
+  },
+  {
+    "productId": "homegoods-107",
+    "name": "CozyCalm Weighted Blanket (15 lbs)",
+    "description": "Discover the CozyCalm Weighted Blanket (15 lbs), a top choice in Home Goods / Bedding. Enhance relaxation and sleep quality. Queen-size 15 lb weighted blanket with glass bead filling and a soft, dark grey microfiber cover. Priced at $79.95, it offers excellent value.",
+    "price": 79.95,
+    "currency": "USD",
+    "category": "Home Goods / Bedding",
+    "city": "Minneapolis",
+    "imageUrl": "public/images/homegoods/homegoods-107.jpg"
+  },
+  {
+    "productId": "accessories-105",
+    "name": "CarryAll Canvas Tote Bag with Zipper",
+    "description": "Discover the CarryAll Canvas Tote Bag with Zipper, a top choice in Accessories / Bags. Durable and practical. Heavy-duty natural canvas tote with navy blue accents, zippered top closure, and an interior pocket for organization. Priced at $22.50, it offers excellent value.",
+    "price": 22.5,
+    "currency": "USD",
+    "category": "Accessories / Bags",
+    "city": "Portland",
+    "imageUrl": "public/images/accessories/accessories-105.jpg"
+  },
+  {
+    "productId": "electronics-107",
+    "name": "PocketView Portable Mini Projector",
+    "description": "Discover the PocketView Portable Mini Projector, a top choice in Electronics / Video. Movie night anywhere! Compact white mini projector supports 1080p input, has HDMI/USB connections, and a built-in speaker. Ideal for dark rooms. Priced at $89.99, it offers excellent value.",
+    "price": 89.99,
+    "currency": "USD",
+    "category": "Electronics / Video",
+    "city": "Los Angeles",
+    "imageUrl": "public/images/electronics/electronics-107.jpg"
+  },
+  {
+    "productId": "clothing-106",
+    "name": "TidalWave Men's Quick-Dry Swim Trunks",
+    "description": "Discover the TidalWave Men's Quick-Dry Swim Trunks, a top choice in Clothing / Swimwear. Hit the beach in style. Above-the-knee swim trunks featuring quick-dry fabric, mesh liner, drawstring waist, and a vibrant green/blue tropical leaf pattern. Priced at $32.00, it offers excellent value.",
+    "price": 32.0,
+    "currency": "USD",
+    "category": "Clothing / Swimwear",
+    "city": "Miami",
+    "imageUrl": "public/images/clothing/clothing-106.jpg"
+  },
+  {
+    "productId": "homegoods-108",
+    "name": "ChefPro Silicone Kitchen Utensil Set (10-Piece)",
+    "description": "Discover the ChefPro Silicone Kitchen Utensil Set (10-Piece), a top choice in Home Goods / Kitchenware. Equip your kitchen with this versatile 10-piece set. Heat-resistant grey silicone heads with durable wooden handles. Includes spatulas, spoons, whisk, and more. Priced at $26.99, it offers excellent value.",
+    "price": 26.99,
+    "currency": "USD",
+    "category": "Home Goods / Kitchenware",
+    "city": "Chicago",
+    "imageUrl": "public/images/homegoods/homegoods-108.jpg"
+  },
+  {
+    "productId": "accessories-106",
+    "name": "WarmTouch Touchscreen Winter Gloves",
+    "description": "Discover the WarmTouch Touchscreen Winter Gloves, a top choice in Accessories / Gloves. Keep hands warm without losing connectivity. Black unisex gloves with conductive fingertips, thermal lining, and a windproof outer shell. Priced at $18.95, it offers excellent value.",
+    "price": 18.95,
+    "currency": "USD",
+    "category": "Accessories / Gloves",
+    "city": "Boston",
+    "imageUrl": "public/images/accessories/accessories-106.jpg"
+  },
+  {
+    "productId": "electronics-108",
+    "name": "MechStrike RGB Gaming Keyboard",
+    "description": "Discover the MechStrike RGB Gaming Keyboard, a top choice in Electronics / Accessories. Dominate the game with this black mechanical keyboard. Features tactile blue switches, customizable RGB backlighting, and a full-size layout. Priced at $69.99, it offers excellent value.",
+    "price": 69.99,
+    "currency": "USD",
+    "category": "Electronics / Accessories",
+    "city": "Dallas",
+    "imageUrl": "public/images/electronics/electronics-108.jpg"
+  },
+  {
+    "productId": "homegoods-109",
+    "name": "HydroFlow Insulated Steel Water Bottle (32 oz)",
+    "description": "Discover the HydroFlow Insulated Steel Water Bottle (32 oz), a top choice in Home Goods / Drinkware. Stay hydrated all day. 32 oz vacuum-insulated bottle in matte teal keeps drinks cold for 24 hours or hot for 12. Leak-proof straw lid included. Priced at $27.95, it offers excellent value.",
+    "price": 27.95,
+    "currency": "USD",
+    "category": "Home Goods / Drinkware",
+    "city": "Austin",
+    "imageUrl": "public/images/homegoods/homegoods-109.jpg"
+  },
+  {
+    "productId": "accessories-107",
+    "name": "Heritage Men's Classic Leather Belt",
+    "description": "Discover the Heritage Men's Classic Leather Belt, a top choice in Accessories / Belts. A timeless accessory. This dark brown belt is crafted from 1.5-inch wide full-grain genuine leather with a classic silver-tone buckle. Priced at $39.50, it offers excellent value.",
+    "price": 39.5,
+    "currency": "USD",
+    "category": "Accessories / Belts",
+    "city": "Nashville",
+    "imageUrl": "public/images/accessories/accessories-107.jpg"
   }
 ]
